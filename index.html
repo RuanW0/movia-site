@@ -143,8 +143,6 @@
     <span class="dot"></span>
     <span><strong>Demonstração interativa do sistema Movia</strong> — navegue pelo menu lateral e explore as telas. Dados fictícios, apenas para demonstração.</span>
   </div>
-  <p class="mv-swipe">↔ Deslize para explorar o sistema</p>
-
   <div class="mv-frame"><div class="mv-app" id="mv-app">
     <!-- Sidebar -->
     <aside class="mv-side">
@@ -418,6 +416,108 @@
 
     </main>
   </div></div>
+
+  <!-- ===== APP MOBILE (UI dedicada de celular) ===== -->
+  <div class="mvm" id="mvm">
+    <div class="mvm-top">
+      <span class="sq"><img src="assets/movia-symbol-white.png" alt=""></span>
+      <span class="ttl">Movia<small>Automações</small></span>
+    </div>
+
+    <div class="mvm-content">
+      <!-- Atendimento -->
+      <div class="mvm-screen active" id="m-atendimento">
+        <div class="mvm-h">Atendimento</div>
+        <div class="mvm-sub">2 conversas ativas · Carol (IA)</div>
+        <div class="mvm-conv" data-mc="0"><span class="av">L</span><span><span class="nm">Lucas Andrade</span><span class="pv">Um Onix 2019 na troca.</span></span><span class="meta"><span class="tm">14:28</span><br><span class="bd">BOT</span></span></div>
+        <div class="mvm-conv" data-mc="1"><span class="av">P</span><span><span class="nm">Patrícia Gomes</span><span class="pv">Pode simular o financiamento</span></span><span class="meta"><span class="tm">13:52</span><br><span class="bd">BOT</span></span></div>
+        <div class="mvm-conv" data-mc="2"><span class="av">E</span><span><span class="nm">Eduardo Martins</span><span class="pv">Trabalho, tenho uma frota pequena</span></span><span class="meta"><span class="tm">11:09</span><br><span class="bd">BOT</span></span></div>
+        <div class="mvm-conv" data-mc="3"><span class="av">C</span><span><span class="nm">Camila Rocha</span><span class="pv">Quero agendar pra sábado</span></span><span class="meta"><span class="tm">ontem</span><br><span class="bd">BOT</span></span></div>
+      </div>
+
+      <!-- CRM -->
+      <div class="mvm-screen" id="m-crm">
+        <div class="mvm-h">CRM</div>
+        <div class="mvm-sub">8 leads no funil</div>
+        <div class="mvm-stats">
+          <div class="mvm-stat"><div class="lbl">Em atendimento</div><div class="num">3</div><div class="dt">humanos</div></div>
+          <div class="mvm-stat"><div class="lbl">Em triagem</div><div class="num">1</div><div class="dt">Carol (IA)</div></div>
+          <div class="mvm-stat"><div class="lbl">Fechados</div><div class="num">2</div><div class="dt">no mês</div></div>
+          <div class="mvm-stat"><div class="lbl">Total no funil</div><div class="num">8</div><div class="dt">ativos + fechados</div></div>
+        </div>
+        <div class="mvm-card"><div class="top"><span class="nm">Lucas Andrade</span><span class="mvm-pill q">Follow-up</span></div><div class="car">Honda Civic (2022)</div><div class="ph">+55 (49) 98100-2233 · Instagram</div></div>
+        <div class="mvm-card"><div class="top"><span class="nm">Patrícia Gomes</span><span class="mvm-pill q">Qualificação</span></div><div class="car">HB20 (2024)</div><div class="ph">+55 (49) 99211-4567 · WhatsApp</div></div>
+        <div class="mvm-card"><div class="top"><span class="nm">Eduardo Martins</span><span class="mvm-pill q">Qualificação</span></div><div class="car">Hilux SRX (2023)</div><div class="ph">+55 (47) 99320-7781 · Google</div></div>
+        <div class="mvm-card"><div class="top"><span class="nm">Rafael Nunes</span><span class="mvm-pill t">Triagem</span></div><div class="car">VW T-Cross (2023)</div><div class="ph">+55 (49) 99655-3300 · Facebook</div></div>
+        <div class="mvm-card"><div class="top"><span class="nm">Marina Teixeira</span><span class="mvm-pill f">Fechado</span></div><div class="car">Onix LT (2019)</div><div class="ph">+55 (49) 99088-1212 · Indicação</div></div>
+        <div class="mvm-card"><div class="top"><span class="nm">Sofia Almeida</span><span class="mvm-pill l">Perdido</span></div><div class="car">Renault Kwid (2020)</div><div class="ph">+55 (47) 99511-8080 · Site</div></div>
+      </div>
+
+      <!-- Veículos -->
+      <div class="mvm-screen" id="m-veiculos">
+        <div class="mvm-h">Veículos</div>
+        <div class="mvm-sub">6 veículos em estoque</div>
+        <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>Honda Civic EXL 2022</b><div class="pr">R$ 129.900</div><div class="mt">38.000 km · Automático</div><span class="st ok">Disponível</span></div></div>
+        <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>Jeep Compass 2022</b><div class="pr">R$ 158.000</div><div class="mt">28.500 km · Diesel</div><span class="st rs">Reservado</span></div></div>
+        <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>HB20 Comfort 2024</b><div class="pr">R$ 89.900</div><div class="mt">0 km · Flex</div><span class="st ok">Disponível</span></div></div>
+        <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>Toyota Hilux SRX 2023</b><div class="pr">R$ 312.000</div><div class="mt">45.000 km · 4x4</div><span class="st ok">Disponível</span></div></div>
+        <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>Chevrolet Onix LT 2019</b><div class="pr">R$ 67.500</div><div class="mt">62.000 km · Flex</div><span class="st av">Em avaliação</span></div></div>
+        <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>VW T-Cross 2023</b><div class="pr">R$ 139.000</div><div class="mt">19.000 km · Automático</div><span class="st ok">Disponível</span></div></div>
+      </div>
+
+      <!-- Painel -->
+      <div class="mvm-screen" id="m-painel">
+        <div class="mvm-h">Painel</div>
+        <div class="mvm-sub">Junho/2026 · últimos 30 dias</div>
+        <div class="mvm-stats">
+          <div class="mvm-stat"><div class="lbl">Leads no mês</div><div class="num">347</div><div class="dt up">+18%</div></div>
+          <div class="mvm-stat"><div class="lbl">Test-drives</div><div class="num">52</div><div class="dt up">+9%</div></div>
+          <div class="mvm-stat"><div class="lbl">Vendas</div><div class="num">23</div><div class="dt up">+4</div></div>
+          <div class="mvm-stat"><div class="lbl">Resp. média</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
+        </div>
+        <div class="mvm-h" style="font-size:14px;margin:6px 0 12px">Leads por origem</div>
+        <div class="mvm-bars">
+          <div class="mvm-bar"><span class="lb">WhatsApp</span><span class="tr"><span class="fl" style="width:100%"></span></span><span class="vl">142</span></div>
+          <div class="mvm-bar"><span class="lb">Instagram</span><span class="tr"><span class="fl" style="width:69%"></span></span><span class="vl">98</span></div>
+          <div class="mvm-bar"><span class="lb">Google</span><span class="tr"><span class="fl" style="width:54%"></span></span><span class="vl">76</span></div>
+          <div class="mvm-bar"><span class="lb">Site</span><span class="tr"><span class="fl" style="width:38%"></span></span><span class="vl">54</span></div>
+          <div class="mvm-bar"><span class="lb">Facebook</span><span class="tr"><span class="fl" style="width:22%"></span></span><span class="vl">31</span></div>
+          <div class="mvm-bar"><span class="lb">Indicação</span><span class="tr"><span class="fl" style="width:15%"></span></span><span class="vl">22</span></div>
+        </div>
+      </div>
+
+      <!-- Copilot -->
+      <div class="mvm-screen" id="m-copilot">
+        <div class="mvm-h">Copilot</div>
+        <div class="mvm-sub">Pergunte sobre leads, estoque e campanhas</div>
+        <div class="mvm-cop">
+          <div class="m u"><span class="who">Você</span>Quais leads estão quentes e ainda não falaram com vendedor?</div>
+          <div class="m a"><span class="who">Movia Copilot</span>Você tem 3 leads quentes sem atendente: <b>Eduardo Martins</b> (Hilux SRX), <b>Rafael Nunes</b> (T-Cross) e <b>Patrícia Gomes</b> (HB20). O mais antigo espera há 1h12. Quer que eu distribua para os vendedores disponíveis?</div>
+          <div class="mvm-chips"><span>Resumir conversas de hoje</span><span>Sugerir follow-ups</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- chat overlay -->
+    <div class="mvm-chat" id="mvm-chat">
+      <div class="ch-top">
+        <button class="bk" id="mvm-back" type="button" aria-label="Voltar">‹</button>
+        <span class="av" id="mvm-cav">L</span>
+        <span><span class="nm" id="mvm-cnm">Lucas Andrade</span><small>online · Carol (IA)</small></span>
+      </div>
+      <div class="ch-msgs" id="mvm-cmsgs"><div class="mvm-typing" id="mvm-ctyping"><i></i><i></i><i></i></div></div>
+      <div class="ch-foot">Carol (IA) está respondendo — toque numa conversa para ver o fluxo</div>
+    </div>
+
+    <!-- bottom tabs -->
+    <nav class="mvm-tabs" aria-label="Navegação do sistema">
+      <button class="active" data-screen="atendimento" type="button"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>Atend.</button>
+      <button data-screen="crm" type="button"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>CRM</button>
+      <button data-screen="veiculos" type="button"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg>Veículos</button>
+      <button data-screen="painel" type="button"><svg viewBox="0 0 24 24"><path d="M3 21V9l6-4 6 3 6-4v17M3 21h18"/></svg>Painel</button>
+      <button data-screen="copilot" type="button"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3z"/></svg>Copilot</button>
+    </nav>
+  </div>
 </div></section>
 
 <!-- 6. SEM/COM (Adjust 10) -->
@@ -608,6 +708,69 @@ document.getElementById('yr').textContent=new Date().getFullYear();
       btns.forEach(function(x){x.classList.toggle('active',x===b);});
     });});
   });
+})();
+
+/* App MOBILE — abas inferiores + abrir/voltar conversa + animação */
+(function(){
+  var app=document.getElementById('mvm'); if(!app) return;
+  var T=[
+    {name:'Lucas Andrade',msgs:[
+      {s:'in',t:'Ola, vi o Civic no anúncio. Ainda tem?',tm:'14:26'},
+      {s:'out',t:'Olá! Temos um Honda Civic EXL 2022, 38.000 km, por R$ 129.900. É para uso pessoal ou trabalho?',tm:'14:26'},
+      {s:'in',t:'Pessoal. Aceita troca?',tm:'14:27'},
+      {s:'out',t:'Aceitamos sim. Qual veículo você daria na troca? Posso já preparar uma avaliação.',tm:'14:27'},
+      {s:'in',t:'Um Onix 2019.',tm:'14:28'},
+      {s:'out',t:'Perfeito, registrei tudo. Um vendedor vai te chamar com a proposta e a avaliação do Onix.',tm:'14:28'}]},
+    {name:'Patrícia Gomes',msgs:[
+      {s:'in',t:'Bom dia, queria saber o valor do HB20 0km',tm:'13:50'},
+      {s:'out',t:'Bom dia! O HB20 Comfort 2024 0km está R$ 89.900. Quer simular o financiamento ou agendar um test-drive?',tm:'13:51'},
+      {s:'in',t:'Pode simular o financiamento',tm:'13:52'},
+      {s:'out',t:'Claro. Você tem um valor de entrada em mente? Com isso já trago as parcelas certinhas.',tm:'13:52'}]},
+    {name:'Eduardo Martins',msgs:[
+      {s:'in',t:'Tem Hilux usada?',tm:'11:07'},
+      {s:'out',t:'Temos a Hilux SRX 2023 4x4, 45.000 km, por R$ 312.000. Procura para trabalho ou uso misto?',tm:'11:08'},
+      {s:'in',t:'Trabalho, tenho uma frota pequena',tm:'11:09'},
+      {s:'out',t:'Ótimo. Posso preparar uma condição especial para frota. Quantos veículos você pretende renovar?',tm:'11:09'}]},
+    {name:'Camila Rocha',msgs:[
+      {s:'in',t:'Oi! O Compass ainda está disponível?',tm:'18:02'},
+      {s:'out',t:'Oi! Sim, Jeep Compass 2022 diesel, 28.500 km. Quer ver as fotos e agendar um test-drive?',tm:'18:02'},
+      {s:'in',t:'Quero agendar pra sábado',tm:'18:03'},
+      {s:'out',t:'Agendado para sábado. Confirmo o horário com você pela manhã. Posso adiantar mais algo?',tm:'18:03'}]}
+  ];
+  var tabs=[].slice.call(app.querySelectorAll('.mvm-tabs button'));
+  var content=app.querySelector('.mvm-content');
+  var chat=document.getElementById('mvm-chat'), msgs=document.getElementById('mvm-cmsgs'),
+      typing=document.getElementById('mvm-ctyping'), timers=[];
+  function clr(){timers.forEach(clearTimeout);timers=[];}
+  function closeChat(){clr();chat.classList.remove('open');}
+  function play(){
+    clr();var items=[].slice.call(msgs.querySelectorAll('.mvm-msg'));var t=300;
+    items.forEach(function(el){
+      if(el.classList.contains('out')){
+        timers.push(setTimeout(function(){typing.classList.add('show');msgs.scrollTop=msgs.scrollHeight;},t)); t+=900;
+        timers.push(setTimeout(function(){typing.classList.remove('show');el.classList.add('show');msgs.scrollTop=msgs.scrollHeight;},t)); t+=600;
+      } else {
+        timers.push(setTimeout(function(){el.classList.add('show');msgs.scrollTop=msgs.scrollHeight;},t)); t+=800;
+      }
+    });
+  }
+  function openChat(i){
+    var th=T[i]||T[0];
+    document.getElementById('mvm-cnm').textContent=th.name;
+    document.getElementById('mvm-cav').textContent=th.name.charAt(0);
+    msgs.querySelectorAll('.mvm-msg').forEach(function(m){m.remove();});
+    typing.classList.remove('show');
+    th.msgs.forEach(function(m){var d=document.createElement('div');d.className='mvm-msg '+m.s;d.innerHTML=m.t+'<span class="t">'+m.tm+'</span>';msgs.insertBefore(d,typing);});
+    chat.classList.add('open'); play();
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){
+    var s=b.getAttribute('data-screen');
+    tabs.forEach(function(x){x.classList.toggle('active',x===b);});
+    app.querySelectorAll('.mvm-screen').forEach(function(v){v.classList.toggle('active',v.id==='m-'+s);});
+    closeChat(); if(content) content.scrollTop=0;
+  });});
+  app.querySelectorAll('.mvm-conv').forEach(function(c){c.addEventListener('click',function(){openChat(parseInt(c.getAttribute('data-mc'),10)||0);});});
+  document.getElementById('mvm-back').addEventListener('click',closeChat);
 })();
 </script>
 </body>
