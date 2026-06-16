@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moviaautomacoes.com.br/sitemap.xml
