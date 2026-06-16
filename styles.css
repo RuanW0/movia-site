@@ -113,12 +113,6 @@ img{max-width:100%;display:block}
 .footer{background:var(--ink);border-top:1px solid var(--border);padding:48px 0;color:var(--muted);font-size:14px}
 .footer a:hover{color:var(--text)}
 
-/* Floating WhatsApp */
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--success);color:var(--white);
-  width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 8px 24px rgba(0,0,0,.45)}
-.wa-float svg{width:30px;height:30px;fill:currentColor}
-
 /* Article (authority page) */
 .article{max-width:760px;margin:0 auto}
 .article h1{font-size:clamp(30px,4.4vw,46px);margin-bottom:18px;letter-spacing:-0.035em}
