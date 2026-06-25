@@ -94,11 +94,14 @@ img{max-width:100%;display:block}
 .checks span{font-size:14.5px;color:var(--text-2)}
 .checks span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange-500);margin-right:9px;vertical-align:middle}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px}
-/* Hero — glow animado de fundo */
-.hero::after{content:"";position:absolute;z-index:0;top:-60px;left:50%;width:680px;height:680px;margin-left:-340px;max-width:130vw;
-  background:radial-gradient(circle,rgba(231,97,20,.30),transparent 62%);pointer-events:none;will-change:transform,opacity;
-  animation:glowDrift 13s ease-in-out infinite}
-@keyframes glowDrift{0%{transform:translate(-45px,0) scale(.92);opacity:.65}50%{transform:translate(45px,32px) scale(1.18);opacity:1}100%{transform:translate(-45px,0) scale(.92);opacity:.65}}
+/* Hero — grid de pontos tech (sutil, deriva devagar) */
+.hero::after{content:"";position:absolute;inset:-2px;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(150,172,226,.13) 1px,transparent 1.5px);
+  background-size:32px 32px;
+  -webkit-mask-image:radial-gradient(ellipse 78% 62% at 50% 30%,#000 32%,transparent 80%);
+  mask-image:radial-gradient(ellipse 78% 62% at 50% 30%,#000 32%,transparent 80%);
+  animation:gridPan 26s linear infinite;will-change:background-position}
+@keyframes gridPan{from{background-position:0 0}to{background-position:32px 32px}}
 /* Hero — entrada escalonada */
 @keyframes heroUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .hero .eyebrow,.hero h1,.hero .sub,.hero-cta{opacity:0;animation:heroUp .7s cubic-bezier(.2,.7,.2,1) forwards}
@@ -112,9 +115,24 @@ img{max-width:100%;display:block}
 .hero .checks span:nth-child(4){animation-delay:.69s}
 .hero .checks span:nth-child(5){animation-delay:.77s}
 .hero-cta{animation-delay:.88s}
+
+/* Scroll-reveal — elementos surgem ao entrar na viewport (site inteiro) */
+.js .reveal{opacity:0;transform:translateY(26px);
+  transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
+.js .reveal.in{opacity:1;transform:none}
+
+/* Micro-interações de hover */
+.card,.module,.auto{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card:hover,.module:hover,.auto:hover{transform:translateY(-4px);border-color:rgba(238,124,58,.55);box-shadow:0 16px 36px -20px rgba(0,0,0,.75)}
+.client img{transition:transform .25s ease,border-color .25s ease}
+.client:hover img{transform:translateY(-4px);border-color:rgba(238,124,58,.55)}
+.flow .step{transition:border-color .25s ease,color .25s ease,transform .25s ease}
+.flow .step:hover{border-color:var(--orange-400);color:var(--orange-400);transform:translateY(-2px)}
+
 @media (prefers-reduced-motion:reduce){
   .hero::after{animation:none}
   .hero .eyebrow,.hero h1,.hero .sub,.hero .checks span,.hero-cta{opacity:1;animation:none}
+  .js .reveal{opacity:1;transform:none;transition:none}
 }
 
 /* Flow */

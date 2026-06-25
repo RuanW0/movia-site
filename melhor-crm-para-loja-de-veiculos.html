@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 <link rel="icon" href="assets/favicon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Qual é o melhor CRM para loja de veículos? Guia 2026">
@@ -104,6 +104,19 @@
 
 <script>
 document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* Scroll-reveal */
+(function(){
+  var root=document.documentElement; root.classList.add('js');
+  if(!('IntersectionObserver' in window)) return;
+  var els=[].slice.call(document.querySelectorAll('.article h2,.article p,.article ul,.band'));
+  els.forEach(function(e){ e.classList.add('reveal'); });
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){io.observe(e);});
+})();
+
 (function(){
   var t=document.getElementById('nav-toggle'),m=document.getElementById('nav-links');
   if(!t||!m) return;
