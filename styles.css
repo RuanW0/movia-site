@@ -94,6 +94,28 @@ img{max-width:100%;display:block}
 .checks span{font-size:14.5px;color:var(--text-2)}
 .checks span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange-500);margin-right:9px;vertical-align:middle}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+/* Hero — glow animado de fundo */
+.hero::after{content:"";position:absolute;z-index:0;top:-60px;left:50%;width:680px;height:680px;margin-left:-340px;max-width:130vw;
+  background:radial-gradient(circle,rgba(231,97,20,.30),transparent 62%);pointer-events:none;will-change:transform,opacity;
+  animation:glowDrift 13s ease-in-out infinite}
+@keyframes glowDrift{0%{transform:translate(-45px,0) scale(.92);opacity:.65}50%{transform:translate(45px,32px) scale(1.18);opacity:1}100%{transform:translate(-45px,0) scale(.92);opacity:.65}}
+/* Hero — entrada escalonada */
+@keyframes heroUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero .eyebrow,.hero h1,.hero .sub,.hero-cta{opacity:0;animation:heroUp .7s cubic-bezier(.2,.7,.2,1) forwards}
+.hero .eyebrow{animation-delay:.05s}
+.hero h1{animation-delay:.15s}
+.hero .sub{animation-delay:.30s}
+.hero .checks span{opacity:0;animation:heroUp .6s cubic-bezier(.2,.7,.2,1) forwards}
+.hero .checks span:nth-child(1){animation-delay:.45s}
+.hero .checks span:nth-child(2){animation-delay:.53s}
+.hero .checks span:nth-child(3){animation-delay:.61s}
+.hero .checks span:nth-child(4){animation-delay:.69s}
+.hero .checks span:nth-child(5){animation-delay:.77s}
+.hero-cta{animation-delay:.88s}
+@media (prefers-reduced-motion:reduce){
+  .hero::after{animation:none}
+  .hero .eyebrow,.hero h1,.hero .sub,.hero .checks span,.hero-cta{opacity:1;animation:none}
+}
 
 /* Flow */
 .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:8px}
