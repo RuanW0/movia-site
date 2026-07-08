@@ -205,6 +205,19 @@ img{max-width:100%;display:block}
 :root{
   --app-bg:#0a0e1a; --app-side:#0b101e; --app-card:#111a2e; --app-card-2:#0e1626;
   --app-border:#1c2640; --app-text:#e8edf6; --app-muted:#7e89a3; --app-dim:#566080;
+  /* Acento secundário índigo (sistema finalizado) */
+  --app-indigo:#6472e8; --app-indigo-2:#8b96f0; --app-indigo-soft:rgba(100,114,232,.16); --app-indigo-bd:rgba(100,114,232,.5);
+  --app-green:#3ec98a; --app-green-soft:rgba(59,201,138,.14);
+  --app-hover:rgba(255,255,255,.045);
+  --app-shadow:0 30px 70px rgba(0,0,0,.5);
+}
+/* Tema claro — escopado à demo (o resto do site permanece dark) */
+[data-app-theme="light"]{
+  --app-bg:#eef1f8; --app-side:#ffffff; --app-card:#ffffff; --app-card-2:#f5f7fc;
+  --app-border:#e4e8f2; --app-text:#101a33; --app-muted:#5a647e; --app-dim:#8b95ac;
+  --app-indigo-soft:rgba(100,114,232,.12);
+  --app-hover:rgba(16,26,51,.05);
+  --app-shadow:0 24px 60px rgba(20,34,74,.16);
 }
 .mv-app{display:grid;grid-template-columns:248px 1fr;background:var(--app-bg);border:1px solid var(--app-border);
   border-radius:16px;overflow:hidden;color:var(--app-text);font-size:14px;height:720px;margin-top:28px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
@@ -374,26 +387,138 @@ img{max-width:100%;display:block}
 .mv-frame{display:block}
 .mv-swipe{display:none}
 
+/* ===== Componentes do sistema finalizado (desktop + mobile) ===== */
+/* Botão índigo (ação secundária: Atualizar, Insights) */
+.mv-btn.indigo{background:var(--app-indigo)}
+.mv-btn.indigo:hover{background:var(--app-indigo-2)}
+
+/* Toggle de tema (Dark/Light) — igual ao sistema */
+.mv-theme{display:inline-flex;align-items:center;gap:8px;background:var(--app-card);border:1px solid var(--app-border);
+  color:var(--app-text);border-radius:11px;padding:8px 13px;font-family:var(--font-body);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.mv-theme:hover{border-color:var(--app-indigo-bd)}
+.mv-theme .ic{width:22px;height:22px;border-radius:50%;background:rgba(231,97,20,.16);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.mv-theme .ic svg{width:13px;height:13px;stroke:var(--orange-400);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mv-theme .ic-sun,.mv-theme .lb-light{display:none}
+[data-app-theme="light"] .mv-theme .ic-moon,[data-app-theme="light"] .mv-theme .lb-dark{display:none}
+[data-app-theme="light"] .mv-theme .ic-sun,[data-app-theme="light"] .mv-theme .lb-light{display:inline-flex}
+[data-app-theme="light"] .mv-theme .lb-light{display:inline}
+
+/* Insights — linha de atualização */
+.mv-refresh-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.mv-updated{font-size:13px;color:var(--app-muted);display:inline-flex;align-items:center;gap:8px}
+.mv-updated::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--app-green);box-shadow:0 0 0 4px var(--app-green-soft)}
+.mv-btn .spin{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.mv-btn.spinning .spin{animation:mvspin .7s linear infinite}
+@keyframes mvspin{to{transform:rotate(360deg)}}
+
+/* Rótulo de seção com ícone (OPORTUNIDADE) */
+.mv-sec-label{display:flex;align-items:center;gap:9px;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:var(--app-text);margin:22px 0 12px}
+.mv-sec-label svg{width:18px;height:18px;stroke:var(--app-green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mv-sec-label .ct{color:var(--app-muted);font-weight:500;font-family:var(--font-body);text-transform:none;letter-spacing:0}
+
+/* Cards de oportunidade */
+.mv-opp{position:relative;background:var(--app-card);border:1px solid var(--app-border);border-left:3px solid var(--app-indigo);
+  border-radius:12px;padding:15px 40px 15px 16px;margin-bottom:10px}
+.mv-opp.warn{border-left-color:var(--orange-500)}
+.mv-opp.good{border-left-color:var(--app-green)}
+.mv-opp .badge{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--app-indigo-bd);color:var(--app-indigo-2);border-radius:6px;padding:2px 8px;margin-bottom:9px}
+.mv-opp.warn .badge{border-color:rgba(231,97,20,.5);color:var(--orange-400)}
+.mv-opp.good .badge{border-color:rgba(59,201,138,.5);color:var(--app-green)}
+.mv-opp .tt{font-weight:600;font-size:14px;color:var(--app-text);margin-bottom:4px}
+.mv-opp .ds{font-size:13px;color:var(--app-muted);line-height:1.5}
+.mv-opp .x{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--app-dim);font-size:16px;line-height:1;cursor:pointer;padding:2px}
+.mv-opp .x:hover{color:var(--app-text)}
+
+/* Stat com ícone (Dashboards) */
+.mv-stat{position:relative}
+.mv-stat .ic-tr{position:absolute;top:14px;right:14px;width:26px;height:26px;stroke:var(--orange-400);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.mv-stat .dt.flat{color:var(--app-muted)}
+
+/* Motivos de perda / barras horizontais */
+.mv-lossbars{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+.mv-lossbar{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--app-muted)}
+.mv-lossbar .lb{flex:none;width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mv-lossbar .tr{flex:1;background:var(--app-card);border:1px solid var(--app-border);border-radius:6px;overflow:hidden;height:12px}
+.mv-lossbar .fl{height:100%;background:linear-gradient(90deg,var(--orange-500),var(--orange-400));border-radius:6px}
+.mv-lossbar .vl{flex:none;width:26px;text-align:right;color:var(--app-text);font-weight:600}
+
+/* Agenda — chips de categoria */
+.mv-cats{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:16px}
+.mv-cats .lb{font-size:12.5px;color:var(--app-muted);margin-right:2px}
+.mv-cat{display:inline-flex;align-items:center;gap:7px;background:var(--app-card-2);border:1px solid var(--app-border);
+  border-radius:20px;padding:7px 13px;font-size:12.5px;color:var(--app-text)}
+.mv-cat .d{width:9px;height:9px;border-radius:50%}
+.mv-cat .d.td{background:var(--orange-500)}.mv-cat .d.vs{background:#4f7cf5}.mv-cat .d.fu{background:#e0a800}.mv-cat .d.re{background:var(--app-green)}
+.mv-appt .cd{width:9px;height:9px;border-radius:50%;flex:none}
+.mv-appt .cd.td{background:var(--orange-500)}.mv-appt .cd.vs{background:#4f7cf5}.mv-appt .cd.fu{background:#e0a800}.mv-appt .cd.re{background:var(--app-green)}
+
+/* Copilot — botão Insights + bolha índigo */
+.mv-cop-insights{display:inline-flex;align-items:center;gap:7px;background:var(--app-indigo);color:#fff;border:none;
+  border-radius:10px;padding:8px 14px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer}
+.mv-cop-insights:hover{background:var(--app-indigo-2)}
+.mv-cop-insights svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.8}
+.mv-cop-msg.a{background:var(--app-indigo-soft);border-color:var(--app-indigo-bd);color:var(--app-text)}
+.mv-cop-msg.a .who{color:var(--app-indigo-2)}
+
+/* Tags: 🔥 QUENTE (lead quente) + SPEC (origem) */
+.mv-hot{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--orange-400)}
+.mv-spec{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;color:#4f7cf5;
+  border:1px solid rgba(79,124,245,.4);background:rgba(79,124,245,.12);border-radius:5px;padding:1px 6px;vertical-align:middle}
+.mv-stage-pill{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.mv-stage-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.mv-stage-pill.tri{color:var(--app-indigo-2)}.mv-stage-pill.fu{color:var(--orange-400)}.mv-stage-pill.fe{color:var(--app-green)}
+
+/* Correções de contraste no tema claro */
+[data-app-theme="light"] .mv-msg.out,[data-app-theme="light"] .mvm-msg.out,
+[data-app-theme="light"] .mv-cop-msg.u,[data-app-theme="light"] .mvm-cop .m.u{color:#8a3a12}
+[data-app-theme="light"] .mv-veh .ph,[data-app-theme="light"] .mvm-veh .ph{background:linear-gradient(135deg,#e7ecf6,#f4f6fc);color:#aab4ca}
+[data-app-theme="light"] .mv-citem:hover,[data-app-theme="light"] .mv-citem.active,
+[data-app-theme="light"] .mv-nav button:hover,[data-app-theme="light"] .mvm-drawer-nav button:hover,
+[data-app-theme="light"] .mv-cop-hitem:hover{background:var(--app-hover)}
+[data-app-theme="light"] .mv-stat .dt.up,[data-app-theme="light"] .mvm-stat .dt.up{color:#128a55}
+
 /* ===== App mobile dedicado (UI própria de celular) — oculto no desktop ===== */
-.mvm{display:none;flex-direction:column;height:640px;background:var(--app-bg);border:1px solid var(--app-border);
-  border-radius:24px;overflow:hidden;margin-top:20px;box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative}
-.mvm-top{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--app-border);background:var(--app-side)}
+.mvm{display:none;flex-direction:column;height:660px;background:var(--app-bg);border:1px solid var(--app-border);
+  border-radius:24px;overflow:hidden;margin-top:20px;box-shadow:var(--app-shadow);position:relative}
+.mvm-top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--app-border);background:var(--app-side)}
+.mvm-top .mvm-theme{margin-left:auto;padding:6px 10px;font-size:12px}
+.mvm-top .mvm-theme .ic{width:20px;height:20px}
 .mvm-top .sq{width:30px;height:30px;border-radius:8px;background:var(--orange-500);display:flex;align-items:center;justify-content:center;flex:none}
 .mvm-top .sq img{width:19px;height:19px}
 .mvm-top .ttl{font-family:var(--font-display);font-weight:700;font-size:15px;line-height:1.05}
 .mvm-top .ttl small{display:block;font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--app-muted)}
 .mvm-burger{background:none;border:none;color:var(--app-muted);cursor:pointer;padding:4px;display:flex;margin-right:2px}
 .mvm-burger svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.mvm-body{display:flex;flex:1;min-height:0;overflow:hidden}
-.mvm-side{display:flex;flex-direction:column;gap:2px;padding:10px 8px;width:148px;flex:none;
-  border-right:1px solid var(--app-border);background:var(--app-side);overflow:hidden;transition:width .22s ease}
-.mvm-side button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;color:var(--app-muted);
-  padding:11px 10px;border-radius:9px;font-family:var(--font-body);font-size:13px;cursor:pointer;white-space:nowrap;text-align:left}
-.mvm-side button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
-.mvm-side button.active{background:rgba(231,97,20,.12);color:var(--orange-400)}
-.mvm.nav-collapsed .mvm-side{width:54px}
-.mvm.nav-collapsed .mvm-side button{justify-content:center;padding:11px 0;gap:0}
-.mvm.nav-collapsed .mvm-side .lbl{display:none}
+/* Drawer full-screen (menu do sistema finalizado) */
+.mvm-backdrop{position:absolute;inset:0;background:rgba(4,7,16,.55);opacity:0;visibility:hidden;
+  transition:opacity .22s ease,visibility .22s;z-index:8}
+.mvm.drawer-open .mvm-backdrop{opacity:1;visibility:visible}
+.mvm-drawer{position:absolute;top:0;left:0;bottom:0;width:83%;max-width:300px;z-index:9;
+  background:var(--app-side);border-right:1px solid var(--app-border);display:flex;flex-direction:column;
+  padding:14px 12px;overflow-y:auto;transform:translateX(-104%);transition:transform .24s cubic-bezier(.2,.7,.2,1);
+  box-shadow:12px 0 40px rgba(0,0,0,.35)}
+.mvm.drawer-open .mvm-drawer{transform:none}
+.mvm-drawer-top{display:flex;align-items:center;gap:11px;padding:6px 6px 14px;border-bottom:1px solid var(--app-border);margin-bottom:8px}
+.mvm-drawer-top .sq{width:38px;height:38px;border-radius:10px;background:var(--orange-500);display:flex;align-items:center;justify-content:center;flex:none}
+.mvm-drawer-top .sq img{width:24px;height:24px}
+.mvm-drawer-top .nm{font-family:var(--font-display);font-weight:700;font-size:15px;line-height:1.05}
+.mvm-drawer-top .nm small{display:block;font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--app-muted)}
+.mvm-drawer-top .cls{margin-left:auto;background:none;border:1px solid var(--app-border);border-radius:8px;color:var(--app-muted);
+  cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex:none}
+.mvm-drawer-top .cls svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mvm-drawer-nav{display:flex;flex-direction:column;gap:1px;flex:1;margin-top:6px}
+.mvm-drawer-nav button{display:flex;align-items:center;gap:15px;width:100%;background:none;border:none;color:var(--app-text);
+  padding:13px 12px;border-radius:10px;font-family:var(--font-body);font-size:15px;font-weight:500;cursor:pointer;text-align:left}
+.mvm-drawer-nav button svg{width:21px;height:21px;stroke:var(--app-muted);fill:none;stroke-width:1.7;flex:none}
+.mvm-drawer-nav button:hover{background:var(--app-hover)}
+.mvm-drawer-nav button.active{background:var(--app-indigo-soft)}
+.mvm-drawer-nav button.active svg{stroke:var(--app-indigo-2)}
+.mvm-drawer-user{display:flex;align-items:center;gap:11px;padding:11px;margin-top:8px;border-radius:12px;background:var(--app-card-2);border:1px solid var(--app-border)}
+.mvm-drawer-user .av{position:relative;width:36px;height:36px;border-radius:50%;background:var(--orange-500);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;flex:none}
+.mvm-drawer-user .av::after{content:"";position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:var(--app-green);border:2px solid var(--app-card-2)}
+.mvm-drawer-user .nm{font-size:13.5px;font-weight:600}.mvm-drawer-user .nm small{display:block;font-size:10px;letter-spacing:.12em;color:var(--app-muted)}
+.mvm-drawer-user .cv{margin-left:auto;color:var(--app-muted)}
 .mvm-content{flex:1;min-width:0;overflow-y:auto;padding:16px}
 .mvm-content::-webkit-scrollbar{width:0}
 .mvm-screen{display:none}.mvm-screen.active{display:block;animation:fade .2s}
@@ -439,7 +564,7 @@ img{max-width:100%;display:block}
 .mvm-card .car{color:var(--orange-400);font-size:12.5px;margin-top:6px}
 .mvm-card .ph{font-size:12.5px;color:var(--app-muted);margin-top:4px}
 .mvm-pill{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin-left:auto;white-space:nowrap}
-.mvm-pill.q{background:rgba(231,97,20,.16);color:var(--orange-400)}.mvm-pill.f{background:rgba(59,201,138,.14);color:#3ec98a}.mvm-pill.t{background:rgba(126,137,163,.16);color:var(--app-muted)}.mvm-pill.l{background:rgba(194,51,31,.16);color:#e06a56}
+.mvm-pill.q{background:rgba(231,97,20,.16);color:var(--orange-400)}.mvm-pill.f{background:rgba(59,201,138,.14);color:#3ec98a}.mvm-pill.t{background:var(--app-indigo-soft);color:var(--app-indigo-2)}.mvm-pill.l{background:rgba(194,51,31,.16);color:#e06a56}
 /* veículos */
 .mvm-veh{background:var(--app-card-2);border:1px solid var(--app-border);border-radius:12px;overflow:hidden;margin-bottom:10px}
 .mvm-veh .ph{height:104px;background:linear-gradient(135deg,#16203a,#0e1626);display:flex;align-items:center;justify-content:center;color:var(--app-dim)}
@@ -470,6 +595,42 @@ img{max-width:100%;display:block}
 .mvm-cop-input input::placeholder{color:var(--app-dim)}
 .mvm-cop-input button{width:44px;flex:none;background:var(--orange-500);border:none;border-radius:10px;display:flex;align-items:center;justify-content:center}
 .mvm-cop-input button svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Telas novas no mobile (Insights, Clientes, Leads Perdidos, Dashboards) */
+.mvm-lead{font-size:12.5px;color:var(--app-muted);margin:-8px 0 16px;line-height:1.5}
+.mvm-stat{position:relative}
+.mvm-stat .ic-tr{position:absolute;top:12px;right:12px;width:22px;height:22px;stroke:var(--orange-400);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.mvm-info{background:var(--app-card-2);border:1px solid var(--app-border);border-radius:12px;padding:14px;margin-bottom:10px}
+.mvm-info .nm{font-weight:600;font-size:15px;margin-bottom:9px}
+.mvm-info .row{display:flex;justify-content:space-between;gap:12px;padding:5px 0}
+.mvm-info .row .k{color:var(--app-muted);text-transform:uppercase;letter-spacing:.06em;font-size:10px}
+.mvm-info .row .v{color:var(--app-text);text-align:right;font-size:12.5px}
+.mvm-info .row .v.tel{color:var(--orange-400)}
+.mvm-count{font-size:12px;color:var(--app-dim);text-align:center;margin-top:6px}
+.mvm-row{display:flex;align-items:center;gap:10px;font-size:13px;padding:11px 0;border-bottom:1px solid var(--app-border);color:var(--app-muted)}
+.mvm-row:last-child{border:none}
+.mvm-row b{color:var(--app-text);font-weight:600;font-size:13px}
+.mvm-row .val{margin-left:auto;color:var(--app-text);font-weight:600;white-space:nowrap;font-size:12.5px}
+.mvm-row .flag{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#e0a800;border:1px solid rgba(224,168,0,.4);border-radius:4px;padding:1px 6px;flex:none}
+.mvm-row .flag.off{color:var(--app-muted);border-color:var(--app-border)}
+/* Conversa mobile: tag quente + preview */
+.mvm-conv .tags{display:flex;align-items:center;gap:8px;margin-top:4px}
+/* Ajustes mobile p/ componentes compartilhados (Agenda, Insights, Copilot) */
+.mvm .mv-appt{gap:12px;padding:12px 13px}
+.mvm .mv-appt .tm{width:74px;font-size:12px}
+.mvm .mv-appt .tp{font-size:10px;padding:3px 9px}
+.mvm .mv-agenda{gap:8px}
+.mvm .mv-opp{padding-right:16px}
+.mvm .mv-cats{gap:7px}
+.mvm .mv-refresh-row{margin-bottom:14px}
+.mvm-cop .m.a{background:var(--app-indigo-soft);border-color:var(--app-indigo-bd)}
+.mvm-cop .m.a .who{color:var(--app-indigo-2)}
+/* Busca + ações nas telas de lista mobile (fidelidade ao sistema) */
+.mvm-search{display:flex;align-items:center;gap:9px;background:var(--app-card-2);border:1px solid var(--app-border);
+  border-radius:10px;padding:11px 13px;color:var(--app-dim);font-size:13px;margin-bottom:14px}
+.mvm-search svg{width:16px;height:16px;stroke:var(--app-dim);fill:none;stroke-width:2;flex:none}
+.mvm-actions{display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap}
+.mvm-actions .mv-btn{flex:1;justify-content:center;white-space:nowrap}
+.mvm-actions .mv-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
 
 @media(max-width:820px){
   .mv-frame,.mv-swipe{display:none}

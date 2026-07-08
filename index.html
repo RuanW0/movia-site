@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 <link rel="icon" href="assets/favicon.png">
 <meta name="description" content="Sistema completo para loja de veículos: atendimento com IA 24h no WhatsApp, qualificação de leads, CRM, estoque e dashboards. Venda mais carros.">
 <link rel="canonical" href="https://moviaautomacoes.com.br/">
@@ -229,15 +229,22 @@
         <span class="nm">Movia<small>Automações</small></span>
       </div>
       <div class="mv-nav">
-        <button class="active" data-view="atendimento" type="button"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><span class="lbl">Atendimento</span></button>
+        <button class="active" data-view="insights" type="button"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M8.5 14a5 5 0 1 1 7 0c-.7.6-1 1.2-1 2H9.5c0-.8-.3-1.4-1-2z"/></svg><span class="lbl">Insights</span></button>
+        <button data-view="atendimento" type="button"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><span class="lbl">Atendimento</span></button>
         <button data-view="crm" type="button"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><span class="lbl">CRM</span></button>
         <button data-view="clientes" type="button"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg><span class="lbl">Clientes</span></button>
+        <button data-view="leads-perdidos" type="button"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM17 8l4 4m0-4l-4 4"/></svg><span class="lbl">Leads Perdidos</span></button>
         <button data-view="veiculos" type="button"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg><span class="lbl">Veículos</span></button>
         <button data-view="agenda" type="button"><svg viewBox="0 0 24 24"><path d="M3 5h18v16H3zM3 9h18M8 3v4M16 3v4"/></svg><span class="lbl">Agenda</span></button>
         <button data-view="dashboards" type="button"><svg viewBox="0 0 24 24"><path d="M3 21V9l6-4 6 3 6-4v17M3 21h18M9 21v-6M15 21v-9"/></svg><span class="lbl">Dashboards</span></button>
         <button data-view="trafego" type="button"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1zM16 8a4 4 0 0 1 0 8"/></svg><span class="lbl">Tráfego Pago</span></button>
         <button data-view="copilot" type="button"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3zM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></svg><span class="lbl">Copilot</span></button>
       </div>
+      <button class="mv-theme" id="mv-theme-d" type="button" aria-label="Alternar tema claro ou escuro" title="Alternar tema" style="margin-bottom:8px;justify-content:center">
+        <span class="ic ic-moon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+        <span class="ic ic-sun"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+        <span class="lb lb-dark">Dark</span><span class="lb lb-light">Light</span>
+      </button>
       <div class="mv-user">
         <span class="av">M</span>
         <span class="nm">MOVIA<small>OWNER</small></span>
@@ -248,8 +255,29 @@
     <!-- Main -->
     <main class="mv-main">
 
+      <!-- INSIGHTS (home do sistema finalizado) -->
+      <section class="mv-view active" id="v-insights">
+        <div class="mv-head">
+          <div><div class="mv-title">Insights do negócio</div><div class="mv-sub">O que precisa da sua atenção hoje — e onde tem dinheiro na mesa.</div></div>
+        </div>
+        <div class="mv-refresh-row">
+          <span class="mv-updated">Atualizado há 6 min</span>
+          <button class="mv-btn indigo" id="mv-refresh" type="button"><svg class="spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v5h-5"/></svg>Atualizar agora</button>
+        </div>
+        <div class="mv-stats">
+          <div class="mv-stat"><div class="lbl">Leads (30d)</div><div class="num">347</div><div class="dt up">+18% vs maio</div></div>
+          <div class="mv-stat"><div class="lbl">Tempo 1ª resposta</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
+          <div class="mv-stat"><div class="lbl">Conversão lead→venda</div><div class="num">6,6%</div><div class="dt up">+0,8pp</div></div>
+          <div class="mv-stat"><div class="lbl">Investimento Meta</div><div class="num">R$ 4.820</div><div class="dt flat">últimos 30 dias</div></div>
+        </div>
+        <div class="mv-sec-label"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg>Oportunidade <span class="ct">(3)</span></div>
+        <div class="mv-opp warn"><button class="x" type="button" aria-label="Dispensar">×</button><span class="badge">Alerta</span><div class="tt">3 leads quentes sem vendedor há mais de 1h</div><div class="ds">Eduardo Martins (Hilux SRX), Rafael Nunes (T-Cross) e Patrícia Gomes (HB20) estão prontos para negociar. Distribua agora, antes que esfriem.</div></div>
+        <div class="mv-opp"><button class="x" type="button" aria-label="Dispensar">×</button><span class="badge">Info</span><div class="tt">Capital parado: R$ 67.500 há mais de 60 dias</div><div class="ds">O Chevrolet Onix LT 2019 está em avaliação há 2 meses. Vale rever o preço ou destacar em campanha.</div></div>
+        <div class="mv-opp good"><button class="x" type="button" aria-label="Dispensar">×</button><span class="badge">Oportunidade</span><div class="tt">WhatsApp gerou 142 leads este mês (+22%)</div><div class="ds">É a origem que mais converte na sua loja. Reforçar as campanhas de mensagens tende a trazer mais retorno.</div></div>
+      </section>
+
       <!-- ATENDIMENTO -->
-      <section class="mv-view active" id="v-atendimento">
+      <section class="mv-view" id="v-atendimento">
         <div class="mv-head">
           <div><div class="mv-title">Atendimento</div><div class="mv-sub">2 sendo atendidos pela Carol</div></div>
           <div class="mv-pills">
@@ -268,12 +296,12 @@
             </div>
             <div class="mv-citem" data-conv="1">
               <span class="av">P</span>
-              <span><span class="nm">Patrícia Gomes</span><br><span class="ph">+55 (49) 99211-4567</span><br><span class="bot">BOT</span></span>
+              <span><span class="nm">Patrícia Gomes</span><br><span class="ph">+55 (49) 99211-4567</span><br><span class="bot">BOT</span> <span class="mv-hot">🔥 Quente</span></span>
               <span class="tm">13:52</span>
             </div>
             <div class="mv-citem" data-conv="2">
               <span class="av">E</span>
-              <span><span class="nm">Eduardo Martins</span><br><span class="ph">+55 (47) 99320-7781</span><br><span class="bot">BOT</span></span>
+              <span><span class="nm">Eduardo Martins</span><br><span class="ph">+55 (47) 99320-7781</span><br><span class="bot">BOT</span> <span class="mv-hot">🔥 Quente</span></span>
               <span class="tm">11:09</span>
             </div>
             <div class="mv-citem" data-conv="3">
@@ -283,7 +311,7 @@
             </div>
             <div class="mv-citem" data-conv="4">
               <span class="av">R</span>
-              <span><span class="nm">Rafael Nunes</span><br><span class="ph">+55 (49) 99655-3300</span><br><span class="bot">BOT</span></span>
+              <span><span class="nm">Rafael Nunes</span><br><span class="ph">+55 (49) 99655-3300</span><br><span class="bot">BOT</span> <span class="mv-hot">🔥 Quente</span></span>
               <span class="tm">ontem</span>
             </div>
           </div>
@@ -388,6 +416,31 @@
         </table>
       </section>
 
+      <!-- LEADS PERDIDOS -->
+      <section class="mv-view" id="v-leads-perdidos">
+        <div class="mv-head">
+          <div><div class="mv-title">Leads perdidos</div><div class="mv-sub">Entenda por que cada oportunidade não fechou.</div></div>
+          <div class="mv-pills"><button type="button">Hoje</button><button type="button">7 dias</button><button class="active" type="button">30 dias</button><button type="button">90 dias</button></div>
+        </div>
+        <div class="mv-card">
+          <h4>Motivos de perda</h4><div class="csub">Ranking no período</div>
+          <div class="mv-lossbars">
+            <div class="mv-lossbar"><span class="lb">Achou o preço alto</span><span class="tr"><span class="fl" style="width:100%"></span></span><span class="vl">5</span></div>
+            <div class="mv-lossbar"><span class="lb">Comprou em outra loja</span><span class="tr"><span class="fl" style="width:60%"></span></span><span class="vl">3</span></div>
+            <div class="mv-lossbar"><span class="lb">Só fez o primeiro contato</span><span class="tr"><span class="fl" style="width:40%"></span></span><span class="vl">2</span></div>
+            <div class="mv-lossbar"><span class="lb">Sem resposta do cliente</span><span class="tr"><span class="fl" style="width:20%"></span></span><span class="vl">1</span></div>
+          </div>
+        </div>
+        <table class="mv-table">
+          <thead><tr><th>Nome</th><th>Telefone</th><th>Carro de interesse</th><th>Motivo da perda</th><th>Perdido em</th></tr></thead>
+          <tbody>
+            <tr><td><b>Sofia Almeida</b></td><td class="tel">+55 (47) 99511-8080</td><td>Renault Kwid (2020)</td><td>Achou o preço alto</td><td>22/06/2026</td></tr>
+            <tr><td><b>Marcos Vinícius</b></td><td class="tel">+55 (49) 99742-1180</td><td>Jeep Renegade (2021)</td><td>Comprou em outra loja</td><td>20/06/2026</td></tr>
+            <tr><td><b>Helena Costa</b></td><td class="tel">+55 (49) 98630-2214</td><td>—</td><td>Só fez o primeiro contato</td><td>18/06/2026</td></tr>
+          </tbody>
+        </table>
+      </section>
+
       <!-- VEÍCULOS -->
       <section class="mv-view" id="v-veiculos">
         <div class="mv-head">
@@ -407,15 +460,22 @@
       <!-- AGENDA -->
       <section class="mv-view" id="v-agenda">
         <div class="mv-head">
-          <div><div class="mv-title">Agenda</div><div class="mv-sub">Test-drives e visitas agendadas</div></div>
-          <div class="mv-pills"><button class="active" type="button">Hoje</button><button type="button">Semana</button><button type="button">Mês</button></div>
+          <div><div class="mv-title">Agenda</div><div class="mv-sub">Test-drives, visitas e reuniões agendadas</div></div>
+          <div class="mv-pills"><button class="active" type="button">Dia</button><button type="button">Semana</button><button type="button">Mês</button></div>
+        </div>
+        <div class="mv-cats"><span class="lb">Categorias:</span>
+          <span class="mv-cat"><span class="d td"></span>Test-drive</span>
+          <span class="mv-cat"><span class="d vs"></span>Visita à loja</span>
+          <span class="mv-cat"><span class="d fu"></span>Follow-up</span>
+          <span class="mv-cat"><span class="d re"></span>Reunião</span>
+          <span class="mv-cat">Outro</span>
         </div>
         <div class="mv-agenda">
-          <div class="mv-appt"><span class="tm">Hoje · 14:30</span><span><span class="nm">Júlia Alves</span><br><span class="car">Jeep Compass Longitude</span></span><span class="tp">Test-drive</span></div>
-          <div class="mv-appt"><span class="tm">Hoje · 16:00</span><span><span class="nm">Renato Faria</span><br><span class="car">Honda Civic EXL</span></span><span class="tp">Test-drive</span></div>
-          <div class="mv-appt"><span class="tm">Amanhã · 10:00</span><span><span class="nm">Ricardo Teixeira</span><br><span class="car">Hilux SRX 4x4</span></span><span class="tp">Visita</span></div>
-          <div class="mv-appt"><span class="tm">Amanhã · 11:30</span><span><span class="nm">Aline Prado</span><br><span class="car">VW T-Cross</span></span><span class="tp">Test-drive</span></div>
-          <div class="mv-appt"><span class="tm">Qui · 09:00</span><span><span class="nm">Bela Vista Auto</span><br><span class="car">Negociação de frota</span></span><span class="tp">Reunião</span></div>
+          <div class="mv-appt"><span class="cd td"></span><span class="tm">Hoje · 14:30</span><span><span class="nm">Júlia Alves</span><br><span class="car">Jeep Compass Longitude</span></span><span class="tp">Test-drive</span></div>
+          <div class="mv-appt"><span class="cd td"></span><span class="tm">Hoje · 16:00</span><span><span class="nm">Renato Faria</span><br><span class="car">Honda Civic EXL</span></span><span class="tp">Test-drive</span></div>
+          <div class="mv-appt"><span class="cd vs"></span><span class="tm">Amanhã · 10:00</span><span><span class="nm">Ricardo Teixeira</span><br><span class="car">Hilux SRX 4x4</span></span><span class="tp">Visita à loja</span></div>
+          <div class="mv-appt"><span class="cd fu"></span><span class="tm">Amanhã · 11:30</span><span><span class="nm">Aline Prado</span><br><span class="car">VW T-Cross</span></span><span class="tp">Follow-up</span></div>
+          <div class="mv-appt"><span class="cd re"></span><span class="tm">Qui · 09:00</span><span><span class="nm">Bela Vista Auto</span><br><span class="car">Negociação de frota</span></span><span class="tp">Reunião</span></div>
         </div>
       </section>
 
@@ -426,10 +486,10 @@
           <div class="mv-pills"><button type="button">7 dias</button><button class="active" type="button">30 dias</button><button type="button">90 dias</button></div>
         </div>
         <div class="mv-stats">
-          <div class="mv-stat"><div class="lbl">Leads no mês</div><div class="num">347</div><div class="dt up">+18% vs maio</div></div>
-          <div class="mv-stat"><div class="lbl">Test-drives</div><div class="num">52</div><div class="dt up">+9%</div></div>
-          <div class="mv-stat"><div class="lbl">Vendas</div><div class="num">23</div><div class="dt up">+4 vs maio</div></div>
-          <div class="mv-stat"><div class="lbl">Tempo médio de resposta</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
+          <div class="mv-stat"><svg class="ic-tr" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9"/></svg><div class="lbl">Leads no mês</div><div class="num">347</div><div class="dt up">+18% vs maio</div></div>
+          <div class="mv-stat"><svg class="ic-tr" viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg><div class="lbl">Test-drives</div><div class="num">52</div><div class="dt up">+9%</div></div>
+          <div class="mv-stat"><svg class="ic-tr" viewBox="0 0 24 24"><path d="M20.6 13.4L13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10zM7.5 7.5h.01"/></svg><div class="lbl">Vendas</div><div class="num">23</div><div class="dt up">+4 vs maio</div></div>
+          <div class="mv-stat"><svg class="ic-tr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div class="lbl">Tempo médio de resposta</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
         </div>
         <div class="mv-card">
           <h4>Leads por origem</h4><div class="csub">Últimos 30 dias</div>
@@ -480,6 +540,7 @@
       <section class="mv-view" id="v-copilot">
         <div class="mv-head">
           <div><div class="mv-title">Copilot</div><div class="mv-sub">Pergunte sobre seus leads, estoque e campanhas.</div></div>
+          <button class="mv-cop-insights" type="button"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3zM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></svg>Insights</button>
         </div>
         <div class="mv-cop-layout">
           <aside class="mv-cop-side">
@@ -495,9 +556,9 @@
           <div class="mv-cop-main">
             <div class="mv-cop-body">
               <div class="mv-cop-msg u"><span class="who">Você</span>Quais leads estão quentes e ainda não falaram com vendedor?</div>
-              <div class="mv-cop-msg a"><span class="who">Movia Copilot</span>Você tem 3 leads quentes sem atendente: <b>Eduardo Martins</b> (Hilux SRX), <b>Rafael Nunes</b> (T-Cross) e <b>Patrícia Gomes</b> (HB20). O mais antigo está esperando há 1h12. Quer que eu distribua para os vendedores disponíveis?</div>
+              <div class="mv-cop-msg a"><span class="who">Copilot</span>Você tem 3 leads quentes sem atendente: <b>Eduardo Martins</b> (Hilux SRX), <b>Rafael Nunes</b> (T-Cross) e <b>Patrícia Gomes</b> (HB20). O mais antigo está esperando há 1h12. Quer que eu distribua para os vendedores disponíveis?</div>
               <div class="mv-cop-msg u"><span class="who">Você</span>Resume a conversa do Eduardo</div>
-              <div class="mv-cop-msg a"><span class="who">Movia Copilot</span>O <b>Eduardo Martins</b> procura uma Hilux SRX para renovar uma frota de 3 a 4 veículos e demonstrou interesse em condição especial. Ainda não falou com vendedor. Próximo passo sugerido: encaminhar para um vendedor de frota com proposta.</div>
+              <div class="mv-cop-msg a"><span class="who">Copilot</span>O <b>Eduardo Martins</b> procura uma Hilux SRX para renovar uma frota de 3 a 4 veículos e demonstrou interesse em condição especial. Ainda não falou com vendedor. Próximo passo sugerido: encaminhar para um vendedor de frota com proposta.</div>
               <div class="mv-chips">
                 <span class="mv-chip">Resumir conversas de hoje</span>
                 <span class="mv-chip">Quais carros mais geram leads?</span>
@@ -516,29 +577,69 @@
   </div></div>
 
   <!-- ===== APP MOBILE (UI dedicada de celular) ===== -->
-  <div class="mvm nav-collapsed" id="mvm">
+  <div class="mvm" id="mvm">
     <div class="mvm-top">
-      <button class="mvm-burger" id="mvm-burger" type="button" aria-label="Expandir menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <button class="mvm-burger" id="mvm-burger" type="button" aria-label="Abrir menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
       <span class="sq"><img src="assets/movia-symbol-white.webp" alt=""></span>
-      <span class="ttl">Movia<small>Automações</small></span>
+      <span class="ttl">Movia</span>
+      <button class="mvm-theme mv-theme" id="mv-theme-m" type="button" aria-label="Alternar tema claro ou escuro">
+        <span class="ic ic-moon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+        <span class="ic ic-sun"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+        <span class="lb lb-dark">Dark</span><span class="lb lb-light">Light</span>
+      </button>
     </div>
 
-    <div class="mvm-body">
-    <nav class="mvm-side" id="mvm-side" aria-label="Navegação do sistema">
-      <button class="active" data-screen="atendimento" type="button"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><span class="lbl">Atendimento</span></button>
-      <button data-screen="crm" type="button"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg><span class="lbl">CRM</span></button>
-      <button data-screen="veiculos" type="button"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg><span class="lbl">Veículos</span></button>
-      <button data-screen="painel" type="button"><svg viewBox="0 0 24 24"><path d="M3 21V9l6-4 6 3 6-4v17M3 21h18"/></svg><span class="lbl">Painel</span></button>
-      <button data-screen="copilot" type="button"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3z"/></svg><span class="lbl">Copilot</span></button>
+    <div class="mvm-backdrop" id="mvm-backdrop"></div>
+    <nav class="mvm-drawer" id="mvm-drawer" aria-label="Menu do sistema">
+      <div class="mvm-drawer-top">
+        <span class="sq"><img src="assets/movia-symbol-white.webp" alt=""></span>
+        <span class="nm">Movia<small>Automações</small></span>
+        <button class="cls" id="mvm-drawer-close" type="button" aria-label="Fechar menu"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+      </div>
+      <div class="mvm-drawer-nav">
+        <button class="active" data-screen="insights" type="button"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M8.5 14a5 5 0 1 1 7 0c-.7.6-1 1.2-1 2H9.5c0-.8-.3-1.4-1-2z"/></svg>Insights</button>
+        <button data-screen="atendimento" type="button"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>Atendimento</button>
+        <button data-screen="crm" type="button"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>CRM</button>
+        <button data-screen="clientes" type="button"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>Clientes</button>
+        <button data-screen="leads-perdidos" type="button"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM17 8l4 4m0-4l-4 4"/></svg>Leads Perdidos</button>
+        <button data-screen="veiculos" type="button"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg>Veículos</button>
+        <button data-screen="agenda" type="button"><svg viewBox="0 0 24 24"><path d="M3 5h18v16H3zM3 9h18M8 3v4M16 3v4"/></svg>Agenda</button>
+        <button data-screen="dashboards" type="button"><svg viewBox="0 0 24 24"><path d="M3 21V9l6-4 6 3 6-4v17M3 21h18M9 21v-6M15 21v-9"/></svg>Dashboards</button>
+        <button data-screen="trafego" type="button"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1zM16 8a4 4 0 0 1 0 8"/></svg>Tráfego Pago</button>
+        <button data-screen="copilot" type="button"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3zM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></svg>Copilot</button>
+      </div>
+      <div class="mvm-drawer-user"><span class="av">M</span><span class="nm">MOVIA<small>OWNER</small></span><span class="cv"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
     </nav>
+
     <div class="mvm-content">
+      <!-- Insights -->
+      <div class="mvm-screen active" id="m-insights">
+        <div class="mvm-h">Insights do negócio</div>
+        <div class="mvm-lead">O que precisa da sua atenção hoje — e onde tem dinheiro na mesa.</div>
+        <div class="mv-refresh-row">
+          <span class="mv-updated">Atualizado há 6 min</span>
+          <button class="mv-btn indigo" type="button"><svg class="spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v5h-5"/></svg>Atualizar agora</button>
+        </div>
+        <div class="mvm-stats">
+          <div class="mvm-stat"><div class="lbl">Leads (30d)</div><div class="num">347</div><div class="dt up">+18%</div></div>
+          <div class="mvm-stat"><div class="lbl">Tempo 1ª resposta</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
+          <div class="mvm-stat"><div class="lbl">Conversão</div><div class="num">6,6%</div><div class="dt up">+0,8pp</div></div>
+          <div class="mvm-stat"><div class="lbl">Invest. Meta</div><div class="num">R$ 4.820</div><div class="dt">30 dias</div></div>
+        </div>
+        <div class="mv-sec-label"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg>Oportunidade <span class="ct">(3)</span></div>
+        <div class="mv-opp warn"><span class="badge">Alerta</span><div class="tt">3 leads quentes sem vendedor há +1h</div><div class="ds">Eduardo, Rafael e Patrícia estão prontos para negociar. Distribua antes que esfriem.</div></div>
+        <div class="mv-opp"><span class="badge">Info</span><div class="tt">Capital parado: R$ 67.500 há +60 dias</div><div class="ds">Onix LT 2019 em avaliação há 2 meses. Reveja o preço ou destaque em campanha.</div></div>
+        <div class="mv-opp good"><span class="badge">Oportunidade</span><div class="tt">WhatsApp: 142 leads no mês (+22%)</div><div class="ds">Sua origem que mais converte. Reforçar mensagens tende a render mais.</div></div>
+      </div>
+
       <!-- Atendimento -->
-      <div class="mvm-screen active" id="m-atendimento">
+      <div class="mvm-screen" id="m-atendimento">
         <div class="mvm-h">Atendimento</div>
         <div class="mvm-sub">2 conversas ativas · Carol (IA)</div>
+        <div class="mvm-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Buscar por nome ou telefone…</div>
         <div class="mvm-conv" data-mc="0"><span class="av">L</span><span><span class="nm">Lucas Andrade</span><span class="pv">Um Onix 2019 na troca.</span></span><span class="meta"><span class="tm">14:28</span><br><span class="bd">BOT</span></span></div>
-        <div class="mvm-conv" data-mc="1"><span class="av">P</span><span><span class="nm">Patrícia Gomes</span><span class="pv">Pode simular o financiamento</span></span><span class="meta"><span class="tm">13:52</span><br><span class="bd">BOT</span></span></div>
-        <div class="mvm-conv" data-mc="2"><span class="av">E</span><span><span class="nm">Eduardo Martins</span><span class="pv">Trabalho, tenho uma frota pequena</span></span><span class="meta"><span class="tm">11:09</span><br><span class="bd">BOT</span></span></div>
+        <div class="mvm-conv" data-mc="1"><span class="av">P</span><span><span class="nm">Patrícia Gomes</span><span class="pv">Pode simular o financiamento</span></span><span class="meta"><span class="tm">13:52</span><br><span class="bd">BOT</span><br><span class="mv-hot">🔥 QUENTE</span></span></div>
+        <div class="mvm-conv" data-mc="2"><span class="av">E</span><span><span class="nm">Eduardo Martins</span><span class="pv">Trabalho, tenho uma frota pequena</span></span><span class="meta"><span class="tm">11:09</span><br><span class="bd">BOT</span><br><span class="mv-hot">🔥 QUENTE</span></span></div>
         <div class="mvm-conv" data-mc="3"><span class="av">C</span><span><span class="nm">Camila Rocha</span><span class="pv">Quero agendar pra sábado</span></span><span class="meta"><span class="tm">ontem</span><br><span class="bd">BOT</span></span></div>
       </div>
 
@@ -560,10 +661,71 @@
         <div class="mvm-card"><div class="top"><span class="nm">Sofia Almeida</span><span class="mvm-pill l">Perdido</span></div><div class="car">Renault Kwid (2020)</div><div class="ph">+55 (47) 99511-8080 · Site</div></div>
       </div>
 
+      <!-- Clientes -->
+      <div class="mvm-screen" id="m-clientes">
+        <div class="mvm-h">Clientes</div>
+        <div class="mvm-sub">6 clientes cadastrados</div>
+        <div class="mvm-actions">
+          <button class="mv-btn ghost" type="button">Exportar CSV</button>
+          <button class="mv-btn" type="button">+ Novo cliente</button>
+        </div>
+        <div class="mvm-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Buscar por nome, telefone ou CPF</div>
+        <div class="mvm-info"><div class="nm">Lucas Andrade</div>
+          <div class="row"><span class="k">Telefone</span><span class="v tel">+55 (49) 98100-2233</span></div>
+          <div class="row"><span class="k">Cidade/UF</span><span class="v">Chapecó/SC</span></div>
+          <div class="row"><span class="k">Última compra</span><span class="v">Honda Civic 2022</span></div>
+        </div>
+        <div class="mvm-info"><div class="nm">Marina Teixeira</div>
+          <div class="row"><span class="k">Telefone</span><span class="v tel">+55 (49) 99088-1212</span></div>
+          <div class="row"><span class="k">Cidade/UF</span><span class="v">Xanxerê/SC</span></div>
+          <div class="row"><span class="k">Última compra</span><span class="v">Onix LT 2019</span></div>
+        </div>
+        <div class="mvm-info"><div class="nm">Bruno Carvalho</div>
+          <div class="row"><span class="k">Telefone</span><span class="v tel">+55 (49) 98722-4545</span></div>
+          <div class="row"><span class="k">Cidade/UF</span><span class="v">São Carlos/SC</span></div>
+          <div class="row"><span class="k">Última compra</span><span class="v">VW Polo 2021</span></div>
+        </div>
+        <div class="mvm-count">Mostrando 3 de 6 clientes</div>
+      </div>
+
+      <!-- Leads Perdidos -->
+      <div class="mvm-screen" id="m-leads-perdidos">
+        <div class="mvm-h">Leads perdidos</div>
+        <div class="mvm-sub">Entenda por que cada um não fechou</div>
+        <div class="mvm-card" style="margin-bottom:16px">
+          <div class="nm">Motivos de perda</div>
+          <div style="font-size:11.5px;color:var(--app-muted);margin:-4px 0 10px">Ranking no período</div>
+          <div class="mv-pills" style="width:max-content;margin-bottom:12px"><button type="button">Hoje</button><button type="button">7d</button><button class="active" type="button">30d</button><button type="button">90d</button></div>
+          <div class="mv-lossbars">
+            <div class="mv-lossbar"><span class="lb">Preço alto</span><span class="tr"><span class="fl" style="width:100%"></span></span><span class="vl">5</span></div>
+            <div class="mv-lossbar"><span class="lb">Comprou em outra loja</span><span class="tr"><span class="fl" style="width:60%"></span></span><span class="vl">3</span></div>
+            <div class="mv-lossbar"><span class="lb">Só 1º contato</span><span class="tr"><span class="fl" style="width:40%"></span></span><span class="vl">2</span></div>
+          </div>
+        </div>
+        <div class="mvm-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Buscar por nome ou telefone</div>
+        <div class="mvm-info"><div class="nm">Sofia Almeida</div>
+          <div class="row"><span class="k">Telefone</span><span class="v tel">+55 (47) 99511-8080</span></div>
+          <div class="row"><span class="k">Interesse</span><span class="v">Renault Kwid 2020</span></div>
+          <div class="row"><span class="k">Motivo</span><span class="v">Achou o preço alto</span></div>
+          <div class="row"><span class="k">Perdido em</span><span class="v">22/06/2026</span></div>
+        </div>
+        <div class="mvm-info"><div class="nm">Marcos Vinícius</div>
+          <div class="row"><span class="k">Telefone</span><span class="v tel">+55 (49) 99742-1180</span></div>
+          <div class="row"><span class="k">Interesse</span><span class="v">Jeep Renegade 2021</span></div>
+          <div class="row"><span class="k">Motivo</span><span class="v">Comprou em outra loja</span></div>
+          <div class="row"><span class="k">Perdido em</span><span class="v">20/06/2026</span></div>
+        </div>
+      </div>
+
       <!-- Veículos -->
       <div class="mvm-screen" id="m-veiculos">
         <div class="mvm-h">Veículos</div>
         <div class="mvm-sub">6 veículos em estoque</div>
+        <div class="mvm-actions">
+          <button class="mv-btn ghost" type="button"><svg viewBox="0 0 24 24"><path d="M12 15V3m0 0l-4 4m4-4l4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Importar planilha</button>
+          <button class="mv-btn" type="button">+ Novo veículo</button>
+        </div>
+        <div class="mvm-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Buscar por marca, modelo ou placa…</div>
         <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>Honda Civic EXL 2022</b><div class="pr">R$ 129.900</div><div class="mt">38.000 km · Automático</div><span class="st ok">Disponível</span></div></div>
         <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>Jeep Compass 2022</b><div class="pr">R$ 158.000</div><div class="mt">28.500 km · Diesel</div><span class="st rs">Reservado</span></div></div>
         <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>HB20 Comfort 2024</b><div class="pr">R$ 89.900</div><div class="mt">0 km · Flex</div><span class="st ok">Disponível</span></div></div>
@@ -572,15 +734,34 @@
         <div class="mvm-veh"><div class="ph"><svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg></div><div class="in"><b>VW T-Cross 2023</b><div class="pr">R$ 139.000</div><div class="mt">19.000 km · Automático</div><span class="st ok">Disponível</span></div></div>
       </div>
 
-      <!-- Painel -->
-      <div class="mvm-screen" id="m-painel">
-        <div class="mvm-h">Painel</div>
-        <div class="mvm-sub">Junho/2026 · últimos 30 dias</div>
+      <!-- Agenda -->
+      <div class="mvm-screen" id="m-agenda">
+        <div class="mvm-h">Agenda</div>
+        <div class="mvm-sub">Test-drives, visitas e reuniões</div>
+        <div class="mv-cats"><span class="lb">Categorias:</span>
+          <span class="mv-cat"><span class="d td"></span>Test-drive</span>
+          <span class="mv-cat"><span class="d vs"></span>Visita à loja</span>
+          <span class="mv-cat"><span class="d fu"></span>Follow-up</span>
+          <span class="mv-cat"><span class="d re"></span>Reunião</span>
+          <span class="mv-cat">Outro</span>
+        </div>
+        <div class="mv-agenda">
+          <div class="mv-appt"><span class="cd td"></span><span class="tm">Hoje · 14:30</span><span><span class="nm">Júlia Alves</span><br><span class="car">Jeep Compass Longitude</span></span><span class="tp">Test-drive</span></div>
+          <div class="mv-appt"><span class="cd td"></span><span class="tm">Hoje · 16:00</span><span><span class="nm">Renato Faria</span><br><span class="car">Honda Civic EXL</span></span><span class="tp">Test-drive</span></div>
+          <div class="mv-appt"><span class="cd vs"></span><span class="tm">Amanhã · 10:00</span><span><span class="nm">Ricardo Teixeira</span><br><span class="car">Hilux SRX 4x4</span></span><span class="tp">Visita</span></div>
+          <div class="mv-appt"><span class="cd re"></span><span class="tm">Qui · 09:00</span><span><span class="nm">Bela Vista Auto</span><br><span class="car">Negociação de frota</span></span><span class="tp">Reunião</span></div>
+        </div>
+      </div>
+
+      <!-- Dashboards -->
+      <div class="mvm-screen" id="m-dashboards">
+        <div class="mvm-h">Dashboards</div>
+        <div class="mvm-sub">Visão do negócio · últimos 7 dias</div>
         <div class="mvm-stats">
-          <div class="mvm-stat"><div class="lbl">Leads no mês</div><div class="num">347</div><div class="dt up">+18%</div></div>
-          <div class="mvm-stat"><div class="lbl">Test-drives</div><div class="num">52</div><div class="dt up">+9%</div></div>
-          <div class="mvm-stat"><div class="lbl">Vendas</div><div class="num">23</div><div class="dt up">+4</div></div>
-          <div class="mvm-stat"><div class="lbl">Resp. média</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
+          <div class="mvm-stat"><svg class="ic-tr" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9"/></svg><div class="lbl">Leads no mês</div><div class="num">347</div><div class="dt up">+18%</div></div>
+          <div class="mvm-stat"><svg class="ic-tr" viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0zM3 13l2-6h10l3 6M3 13h16v4"/></svg><div class="lbl">Test-drives</div><div class="num">52</div><div class="dt up">+9%</div></div>
+          <div class="mvm-stat"><svg class="ic-tr" viewBox="0 0 24 24"><path d="M20.6 13.4L13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10zM7.5 7.5h.01"/></svg><div class="lbl">Vendas</div><div class="num">23</div><div class="dt up">+4</div></div>
+          <div class="mvm-stat"><svg class="ic-tr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div class="lbl">Resp. média</div><div class="num">38s</div><div class="dt">Carol (IA)</div></div>
         </div>
         <div class="mvm-h" style="font-size:14px;margin:6px 0 12px">Leads por origem</div>
         <div class="mvm-bars">
@@ -593,18 +774,35 @@
         </div>
       </div>
 
+      <!-- Tráfego Pago -->
+      <div class="mvm-screen" id="m-trafego">
+        <div class="mvm-h">Tráfego pago</div>
+        <div class="mvm-sub">Campanhas no Facebook e Instagram · 7 dias</div>
+        <div class="mvm-stats">
+          <div class="mvm-stat"><div class="lbl">Investimento</div><div class="num">R$ 4.820</div><div class="dt up">+12%</div></div>
+          <div class="mvm-stat"><div class="lbl">Leads gerados</div><div class="num">138</div><div class="dt up">+22%</div></div>
+          <div class="mvm-stat"><div class="lbl">Custo por lead</div><div class="num">R$ 34,93</div><div class="dt up">−8%</div></div>
+          <div class="mvm-stat"><div class="lbl">CTR médio</div><div class="num">2,4%</div><div class="dt up">+0,3pp</div></div>
+        </div>
+        <div class="mvm-h" style="font-size:14px;margin:6px 0 10px">Top campanhas</div>
+        <div class="mvm-row"><span class="flag">Ativa</span><b>Civic 2022 · WhatsApp</b><span class="val">41 leads</span></div>
+        <div class="mvm-row"><span class="flag">Ativa</span><b>Hilux SRX · Mensagens</b><span class="val">28 leads</span></div>
+        <div class="mvm-row"><span class="flag">Ativa</span><b>Compass · Carrossel</b><span class="val">33 leads</span></div>
+        <div class="mvm-row"><span class="flag off">Pausada</span><b>T-Cross · Remarketing</b><span class="val">12 leads</span></div>
+      </div>
+
       <!-- Copilot -->
       <div class="mvm-screen" id="m-copilot">
-        <div class="mvm-h">Copilot</div>
+        <div class="mvm-h" style="display:flex;align-items:center;justify-content:space-between;gap:10px">Copilot<button class="mv-cop-insights" type="button"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3zM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></svg>Insights</button></div>
         <div class="mvm-sub">Pergunte sobre leads, estoque e campanhas</div>
         <div class="mvm-cop-hist">
           <span class="active">Leads quentes sem vendedor</span><span>Resumo de hoje</span><span>Carros que mais vendem</span><span>Follow-ups</span>
         </div>
         <div class="mvm-cop">
           <div class="m u"><span class="who">Você</span>Quais leads estão quentes e ainda não falaram com vendedor?</div>
-          <div class="m a"><span class="who">Movia Copilot</span>Você tem 3 leads quentes sem atendente: <b>Eduardo Martins</b> (Hilux SRX), <b>Rafael Nunes</b> (T-Cross) e <b>Patrícia Gomes</b> (HB20). O mais antigo espera há 1h12. Quer que eu distribua para os vendedores disponíveis?</div>
+          <div class="m a"><span class="who">Copilot</span>Você tem 3 leads quentes sem atendente: <b>Eduardo Martins</b> (Hilux SRX), <b>Rafael Nunes</b> (T-Cross) e <b>Patrícia Gomes</b> (HB20). O mais antigo espera há 1h12. Quer que eu distribua para os vendedores disponíveis?</div>
           <div class="m u"><span class="who">Você</span>Resume a conversa do Eduardo</div>
-          <div class="m a"><span class="who">Movia Copilot</span>O <b>Eduardo Martins</b> procura uma Hilux SRX para renovar uma frota de 3 a 4 veículos. Ainda não falou com vendedor. Sugiro encaminhar para um vendedor de frota com proposta.</div>
+          <div class="m a"><span class="who">Copilot</span>O <b>Eduardo Martins</b> procura uma Hilux SRX para renovar uma frota de 3 a 4 veículos. Ainda não falou com vendedor. Sugiro encaminhar para um vendedor de frota com proposta.</div>
           <div class="mvm-chips"><span>Resumir conversas de hoje</span><span>Sugerir follow-ups</span></div>
         </div>
         <div class="mvm-cop-input">
@@ -612,7 +810,6 @@
           <button type="button" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </div>
-    </div>
     </div>
 
     <!-- chat overlay -->
@@ -933,13 +1130,16 @@ document.getElementById('yr').textContent=new Date().getFullYear();
       {s:'in',t:'Só isso por enquanto',tm:'18:04'},
       {s:'out',t:'Combinado! Test-drive do Compass agendado para sábado. Um vendedor vai te receber e confirmar o horário pela manhã.',tm:'18:04'}]}
   ];
-  var tabs=[].slice.call(app.querySelectorAll('.mvm-side button'));
+  var tabs=[].slice.call(app.querySelectorAll('.mvm-drawer-nav button'));
   var content=app.querySelector('.mvm-content');
   var burger=document.getElementById('mvm-burger');
-  if(burger) burger.addEventListener('click',function(){
-    var col=app.classList.toggle('nav-collapsed');
-    burger.setAttribute('aria-label',col?'Expandir menu':'Recolher menu');
-  });
+  var backdrop=document.getElementById('mvm-backdrop');
+  var drawerClose=document.getElementById('mvm-drawer-close');
+  function openDrawer(){app.classList.add('drawer-open');if(burger)burger.setAttribute('aria-expanded','true');}
+  function closeDrawer(){app.classList.remove('drawer-open');if(burger)burger.setAttribute('aria-expanded','false');}
+  if(burger) burger.addEventListener('click',openDrawer);
+  if(backdrop) backdrop.addEventListener('click',closeDrawer);
+  if(drawerClose) drawerClose.addEventListener('click',closeDrawer);
   var chat=document.getElementById('mvm-chat'), msgs=document.getElementById('mvm-cmsgs'),
       typing=document.getElementById('mvm-ctyping'), timers=[];
   function clr(){timers.forEach(clearTimeout);timers=[];}
@@ -968,10 +1168,41 @@ document.getElementById('yr').textContent=new Date().getFullYear();
     var s=b.getAttribute('data-screen');
     tabs.forEach(function(x){x.classList.toggle('active',x===b);});
     app.querySelectorAll('.mvm-screen').forEach(function(v){v.classList.toggle('active',v.id==='m-'+s);});
-    closeChat(); if(content) content.scrollTop=0;
+    closeChat(); closeDrawer(); if(content) content.scrollTop=0;
   });});
   app.querySelectorAll('.mvm-conv').forEach(function(c){c.addEventListener('click',function(){openChat(parseInt(c.getAttribute('data-mc'),10)||0);});});
   document.getElementById('mvm-back').addEventListener('click',closeChat);
+})();
+
+/* Demo — toggle de tema claro/escuro (escopado à seção #demonstracao) */
+(function(){
+  var host=document.getElementById('demonstracao'); if(!host) return;
+  function toggle(){
+    host.setAttribute('data-app-theme', host.getAttribute('data-app-theme')==='light'?'dark':'light');
+  }
+  ['mv-theme-d','mv-theme-m'].forEach(function(id){
+    var b=document.getElementById(id); if(b) b.addEventListener('click',toggle);
+  });
+})();
+
+/* Insights — botão Atualizar (feedback visual) */
+(function(){
+  document.querySelectorAll('#demonstracao .mv-btn.indigo').forEach(function(b){
+    if(!b.querySelector('.spin')) return;
+    b.addEventListener('click',function(){
+      if(b.classList.contains('spinning')) return;
+      b.classList.add('spinning');
+      var row=b.closest('.mv-refresh-row'), upd=row&&row.querySelector('.mv-updated');
+      setTimeout(function(){b.classList.remove('spinning');if(upd)upd.textContent='Atualizado agora';},900);
+    });
+  });
+})();
+
+/* Insights — dispensar oportunidade */
+(function(){
+  document.querySelectorAll('#demonstracao .mv-opp .x').forEach(function(x){
+    x.addEventListener('click',function(){var c=x.closest('.mv-opp');if(c)c.remove();});
+  });
 })();
 </script>
 </body>
