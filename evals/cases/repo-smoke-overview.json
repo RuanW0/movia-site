@@ -1,0 +1,10 @@
+{
+  "id": "repo-smoke-overview",
+  "input": "Smoke overview for movia-site: system under test returns a one-line health summary.",
+  "expected": "movia-site ok",
+  "tags": ["smoke", "fleet-adoption"],
+  "metadata": {
+    "source": "pg-devkit eval seed",
+    "purpose": "Counts as real case for fleet-adoption (not sample.json)"
+  }
+}

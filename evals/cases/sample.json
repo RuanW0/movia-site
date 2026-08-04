@@ -1,0 +1,9 @@
+{
+  "id": "sample-001",
+  "input": "Replace with the input fed to the system under test.",
+  "expected": "Replace with the expected/reference output.",
+  "tags": [
+    "sample"
+  ],
+  "metadata": {}
+}
