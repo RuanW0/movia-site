@@ -1,0 +1,19 @@
+:{$PORT:8080} {
+	root * /srv
+	encode gzip
+
+	# /obrigado.html -> /obrigado (URL canonica unica pro GTM).
+	# Duas regras porque `redir` usa alvo literal: sem preservar {query}
+	# o utm_source/gclid de um link .html compartilhado morre no redirect.
+	# A variante com query vem primeiro (mesma diretiva mantem a ordem do
+	# arquivo); a segunda evita o `?` solto quando nao ha query.
+	@obrigado_html_query {
+		path /obrigado.html
+		expression {query} != ""
+	}
+	redir @obrigado_html_query /obrigado?{query} 308
+	redir /obrigado.html /obrigado 308
+
+	try_files {path} {path}.html
+	file_server
+}
