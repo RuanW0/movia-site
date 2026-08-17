@@ -127,6 +127,9 @@ input:focus,select:focus{outline:2px solid rgba(231,97,20,.14);border-color:#E76
 }
 .form-msg{margin-top:12px;padding:12px 14px;border-radius:8px;font-size:14px;font-weight:600;background:#D9EAD3;color:#1E4620}
 .form-msg--erro{background:#FDE7D7;color:#8A2E00}
+.form-msg--info{background:#EEF1F6;color:#39415A}
+.btn .spin{width:18px;height:18px;border:3px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;display:inline-block;margin-right:10px;animation:spin .8s linear infinite;vertical-align:-3px}
+@keyframes spin{to{transform:rotate(360deg)}}
 .privacy{font-size:11px;color:#858C9B;text-align:center;margin-top:10px}
 .qualifier{
   margin-top:14px;background:#FFF4EC;border:1px solid #FFD7C0;border-radius:10px;
@@ -1234,9 +1237,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return (d.length === 10 || d.length === 11) && d.charAt(0) !== '0';
   }
 
-  function mostrar(texto, erro){
+  // tipo: true = erro, 'info' = aviso neutro, false/omitido = sucesso
+  function mostrar(texto, tipo){
     msg.textContent = texto;
-    msg.className = 'form-msg' + (erro ? ' form-msg--erro' : '');
+    msg.className = 'form-msg' + (tipo === true ? ' form-msg--erro' : tipo === 'info' ? ' form-msg--info' : '');
     msg.hidden = false;
   }
 
@@ -1281,11 +1285,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     new FormData(form).forEach(function(v, k){ data[k] = String(v).trim(); });
     data.pagina = location.href;
 
-    btn.disabled = true; btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin" aria-hidden="true"></span>Enviando...';
     msg.hidden = true;
     houveRetry = false;
 
+    // O Apps Script leva ~2-3s pra confirmar a gravação; depois de 2s a
+    // espera vira espera informada em vez de página travada.
+    var avisoTimer = setTimeout(function(){
+      mostrar('Só um instante — confirmando seu cadastro com segurança...', 'info');
+    }, 2000);
+
     function falha(){
+      clearTimeout(avisoTimer);
       mostrar('Não conseguimos enviar agora. Tente novamente em instantes.', true);
       btn.disabled = false; btn.textContent = BTN_TEXTO;
     }
@@ -1303,6 +1315,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     enviar(JSON.stringify(data), 1).then(function(resp){
+      clearTimeout(avisoTimer);
       if(resp.status === 'ok'){
         sucesso();
       } else if(resp.status === 'duplicate' && houveRetry){
