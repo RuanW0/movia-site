@@ -125,6 +125,8 @@ input:focus,select:focus{outline:2px solid rgba(231,97,20,.14);border-color:#E76
   width:100%;margin-top:18px;min-height:60px;
   background:#24ff00;color:#000;font-size:18px;font-weight:700;border-radius:8px
 }
+.form-msg{margin-top:12px;padding:12px 14px;border-radius:8px;font-size:14px;font-weight:600;background:#D9EAD3;color:#1E4620}
+.form-msg--erro{background:#FDE7D7;color:#8A2E00}
 .privacy{font-size:11px;color:#858C9B;text-align:center;margin-top:10px}
 .qualifier{
   margin-top:14px;background:#FFF4EC;border:1px solid #FFD7C0;border-radius:10px;
@@ -834,16 +836,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <form id="leadForm" method="post">
           <div class="form-grid">
             <div class="field">
-<input required name="nome" placeholder="Seu nome">
+              <label for="leadNome">Seu nome</label>
+<input required id="leadNome" name="nome" autocomplete="name" maxlength="80" minlength="2" placeholder="Seu nome">
             </div>
             <div class="field">
-<input required name="telefone" placeholder="(00) 00000-0000">
+              <label for="leadTelefone">WhatsApp com DDD</label>
+<input required id="leadTelefone" type="tel" inputmode="numeric" name="telefone" autocomplete="tel-national" maxlength="16" placeholder="(00) 00000-0000">
             </div>
             <div class="field">
-<input required type="email" name="email" placeholder="seu@email.com">
+              <label for="leadEmail">Email</label>
+<input required id="leadEmail" type="email" name="email" autocomplete="email" maxlength="120" placeholder="seu@email.com">
             </div>
             <div class="field">
-<input required name="empresa" placeholder="Nome da empresa">
+              <label for="leadEmpresa">Empresa</label>
+<input required id="leadEmpresa" name="empresa" autocomplete="organization" maxlength="80" minlength="2" placeholder="Nome da empresa">
             </div>
 
             <div class="field">
@@ -883,6 +889,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
 
           <button class="btn" type="submit">Receber mais informações</button>
+          <div id="formMsg" class="form-msg" role="status" hidden></div>
 </form>
       </div>
     </div>
@@ -1187,40 +1194,137 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
 <script>
+// >>> lead-form >>>
 (function(){
-  // Destino do lead: preencher com o endpoint real (webhook/CRM) antes de subir a campanha.
+  // Destino do lead. Trocar por CRM depois = trocar esta linha.
   var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyePYxReeqSJ18DEA73ctlPNSytNH6NDKeyZQqQ_qGKruDFOnIRzb0U_rZH3uOcaTKBhA/exec';
   var form = document.getElementById('leadForm');
   if(!form) return;
+  var tel = document.getElementById('leadTelefone');
+  var msg = document.getElementById('formMsg');
+  var btn = form.querySelector('button[type="submit"]');
+  var BTN_TEXTO = btn.textContent;
+
+  // Colar "+55 11 99999-0000" dá 13 dígitos: os dois primeiros são DDI, não DDD.
+  // Só descarta acima de 11 dígitos — DDD 55 (RS) existe e cabe em 10-11.
+  function digitos(s){
+    var d = (s || '').replace(/\D/g, '');
+    if(d.length > 11 && d.indexOf('55') === 0) d = d.slice(2);
+    return d;
+  }
+
+  // Máscara (00) 00000-0000 enquanto digita; trava em 11 dígitos.
+  tel.addEventListener('input', function(){
+    var d = digitos(tel.value).slice(0, 11);
+    var out = d;
+    if(d.length > 2){
+      var resto = d.slice(2);
+      if(resto.length > 4){
+        var corte = resto.length > 8 ? 5 : 4;
+        out = '(' + d.slice(0, 2) + ') ' + resto.slice(0, corte) + '-' + resto.slice(corte);
+      } else {
+        out = '(' + d.slice(0, 2) + ') ' + resto;
+      }
+    }
+    tel.value = out;
+  });
+
+  function telValido(v){
+    var d = digitos(v);
+    return (d.length === 10 || d.length === 11) && d.charAt(0) !== '0';
+  }
+
+  function mostrar(texto, erro){
+    msg.textContent = texto;
+    msg.className = 'form-msg' + (erro ? ' form-msg--erro' : '');
+    msg.hidden = false;
+  }
+
+  // Ligado quando algum envio foi reenviado — muda a leitura de "duplicate"
+  // (ver o tratamento da resposta no submit).
+  var houveRetry = false;
+
+  // Envia com retry: erro de rede/HTTP tenta de novo (2x, ~1.5s de espera).
+  // Resposta 200 nunca é re-enviada (evita linha duplicada na planilha).
+  function enviar(corpo, tentativa){
+    return fetch(WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: corpo,
+      keepalive: true
+    }).then(function(r){
+      if(!r.ok) throw new Error('http ' + r.status);
+      return r.text().then(function(t){
+        try { return JSON.parse(t); }
+        catch(e){ return t.trim() === 'ok' ? { status: 'ok' } : { status: 'erro-resposta' }; }
+      });
+    }).catch(function(err){
+      if(tentativa < 3){
+        houveRetry = true;
+        return new Promise(function(res){ setTimeout(res, 1500); })
+          .then(function(){ return enviar(corpo, tentativa + 1); });
+      }
+      throw err;
+    });
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(!form.checkValidity()){ form.reportValidity(); return; }
-    var data = {};
-    new FormData(form).forEach(function(v,k){ data[k]=v; });
-    data.pagina = location.href;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'form_submit_funil',
-      segmento: data.segmento || '',
-      faturamento: data.faturamento || '',
-      trafego: data.trafego || ''
-    });
-    if(WEBHOOK_URL){
-      try{
-        fetch(WEBHOOK_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {'Content-Type': 'text/plain;charset=utf-8'},
-          body: JSON.stringify(data),
-          keepalive: true
-        }).catch(function(){});
-      }catch(err){}
+    if(!telValido(tel.value)){
+      mostrar('Confira o telefone: DDD + número, ex.: (11) 99999-0000.', true);
+      tel.focus();
+      return;
     }
-    var btn = form.querySelector('button[type="submit"]');
-    if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
-    setTimeout(function(){ window.location.href = '/obrigado'; }, 400);
+    var data = {};
+    new FormData(form).forEach(function(v, k){ data[k] = String(v).trim(); });
+    data.pagina = location.href;
+
+    btn.disabled = true; btn.textContent = 'Enviando...';
+    msg.hidden = true;
+    houveRetry = false;
+
+    function falha(){
+      mostrar('Não conseguimos enviar agora. Tente novamente em instantes.', true);
+      btn.disabled = false; btn.textContent = BTN_TEXTO;
+    }
+
+    function sucesso(){
+      // Conversão só com gravação confirmada — métrica limpa no GTM.
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'form_submit_funil',
+        segmento: data.segmento || '',
+        faturamento: data.faturamento || '',
+        trafego: data.trafego || ''
+      });
+      window.location.href = '/obrigado';
+    }
+
+    enviar(JSON.stringify(data), 1).then(function(resp){
+      if(resp.status === 'ok'){
+        sucesso();
+      } else if(resp.status === 'duplicate' && houveRetry){
+        // A 1a tentativa gravou e só a resposta se perdeu: o "duplicate" é o
+        // eco do próprio lead. Tratar como duplicata deixaria o visitante
+        // fora do /obrigado e a conversão sem registro, com a linha na
+        // planilha. A planilha continua protegida — nunca há 2a linha.
+        sucesso();
+      } else if(resp.status === 'duplicate'){
+        Array.prototype.forEach.call(form.querySelectorAll('input,select'), function(el){ el.disabled = true; });
+        btn.textContent = 'Cadastro já recebido';
+        mostrar('Já recebemos seus dados — nossa equipe vai te chamar 👍', false);
+      } else if(resp.status === 'invalid'){
+        mostrar('Confira os campos preenchidos e tente de novo.', true);
+        btn.disabled = false; btn.textContent = BTN_TEXTO;
+      } else {
+        falha();
+      }
+    }).catch(falha);
   });
 })();
+// <<< lead-form <<<
 </script>
 </body>
 </html>

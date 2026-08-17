@@ -1,31 +1,91 @@
 /**
- * Planilha de Leads Movia — versão completa (v2)
+ * Planilha de Leads Movia — versão completa (v3)
  * ------------------------------------------------
- * COMO USAR (uma vez só):
+ * COMO USAR:
  * 1. Planilha -> Extensões -> Apps Script
- * 2. Apagar TODO o código e colar este arquivo inteiro (o doPost do webhook
- *    está incluído, idêntico ao que já roda — NÃO precisa reimplantar nada).
+ * 2. Apagar TODO o código e colar este arquivo inteiro.
  * 3. Salvar (Cmd+S).
- * 4. No menu suspenso de funções (barra de cima), escolher "configurarPlanilha"
- *    e clicar em Executar. Autorizar com sua conta quando pedir.
- * Pronto: abas Leads/Config/Dashboard estruturadas, gráficos criados.
+ * 4. ⚠️ REIMPLANTAR (obrigatório sempre que o código muda):
+ *    Implantar -> Gerenciar implantações -> ✏️ editar -> Versão: "Nova versão"
+ *    -> Implantar. A URL /exec continua a mesma; sem esse passo o webhook
+ *    continua rodando a versão antiga.
+ * 5. No menu suspenso de funções, escolher "configurarPlanilha" e Executar
+ *    (só na primeira vez; é seguro rodar de novo, não apaga leads).
  *
- * Pode rodar configurarPlanilha de novo quando quiser: é seguro, não apaga leads.
+ * v3: valida o payload, normaliza telefone/email e bloqueia duplicata
+ * (mesmo telefone OU email nos últimos 30 dias). Responde JSON:
+ * {"status":"ok"} | {"status":"duplicate"} | {"status":"invalid"}
  */
 
-// ===== 1. WEBHOOK (não mexer — é o que recebe os leads da landing) =====
+// ===== 1. WEBHOOK (recebe os leads da landing) =====
+var DEDUP_JANELA_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
+
 function doPost(e) {
-  var planilha = SpreadsheetApp.getActiveSpreadsheet();
-  var aba = planilha.getSheetByName('Leads') || planilha.insertSheet('Leads');
-  var d = JSON.parse(e.postData.contents);
-  if (aba.getLastRow() === 0) {
-    aba.appendRow(['Data', 'Nome', 'Telefone', 'Email', 'Empresa', 'Segmento', 'Faturamento', 'Trafego/mes', 'Pagina']);
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var d;
+    try { d = JSON.parse(e.postData.contents); } catch (err) { return resposta_('invalid'); }
+
+    var nome = corta_(d.nome, 80).trim();
+    var empresa = corta_(d.empresa, 80).trim();
+    var email = corta_(d.email, 120).trim().toLowerCase();
+    var fone = fone_(d.telefone);
+
+    if (nome.length < 2 || empresa.length < 2) return resposta_('invalid');
+    if (fone.length < 10 || fone.length > 11) return resposta_('invalid');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return resposta_('invalid');
+
+    var planilha = SpreadsheetApp.getActiveSpreadsheet();
+    var aba = planilha.getSheetByName('Leads') || planilha.insertSheet('Leads');
+    if (aba.getLastRow() === 0) {
+      aba.appendRow(['Data', 'Nome', 'Telefone', 'Email', 'Empresa', 'Segmento', 'Faturamento', 'Trafego/mes', 'Pagina']);
+    }
+    if (duplicado_(aba, fone, email)) return resposta_('duplicate');
+
+    aba.appendRow([
+      new Date(), nome, corta_(d.telefone, 20), email, empresa,
+      corta_(d.segmento, 100), corta_(d.faturamento, 100),
+      corta_(d.trafego, 100), corta_(d.pagina, 300)
+    ]);
+    return resposta_('ok');
+  } finally {
+    lock.releaseLock();
   }
-  aba.appendRow([
-    new Date(), d.nome || '', d.telefone || '', d.email || '', d.empresa || '',
-    d.segmento || '', d.faturamento || '', d.trafego || '', d.pagina || ''
-  ]);
-  return ContentService.createTextOutput('ok');
+}
+
+// Corta qualquer valor para no máximo `max` caracteres (nunca lança).
+function corta_(v, max) { return String(v == null ? '' : v).slice(0, max); }
+
+// Telefone só em dígitos. "+55 11 99999-0000" chega com 13: os dois primeiros
+// são DDI, não DDD. Só descarta acima de 11 — DDD 55 (RS) cabe em 10-11.
+// Mesma regra do cliente; é o que faz o dedup casar com linhas antigas.
+function fone_(v) {
+  var d = String(v == null ? '' : v).replace(/\D/g, '');
+  if (d.length > 11 && d.indexOf('55') === 0) d = d.slice(2);
+  return d;
+}
+
+function resposta_(status) {
+  return ContentService.createTextOutput(JSON.stringify({ status: status }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Duplicata = mesmo telefone (só dígitos) OU mesmo email (lowercase)
+// em linha com Data dentro da janela de 30 dias.
+function duplicado_(aba, fone, email) {
+  var ultima = aba.getLastRow();
+  if (ultima < 2) return false;
+  var linhas = aba.getRange(2, 1, ultima - 1, 4).getValues(); // Data, Nome, Telefone, Email
+  var limite = Date.now() - DEDUP_JANELA_MS;
+  for (var i = linhas.length - 1; i >= 0; i--) {
+    var data = linhas[i][0];
+    if (!(data instanceof Date) || data.getTime() < limite) continue;
+    var foneLinha = fone_(linhas[i][2]);
+    var emailLinha = String(linhas[i][3] || '').trim().toLowerCase();
+    if ((fone && foneLinha === fone) || (email && emailLinha === email)) return true;
+  }
+  return false;
 }
 
 // ===== 2. SETUP (rodar uma vez no editor) =====
