@@ -14,6 +14,25 @@
 	redir @obrigado_html_query /obrigado?{query} 308
 	redir /obrigado.html /obrigado 308
 
+	# /obrigado/ -> /obrigado (mesma canonizacao, agora pra barra final).
+	# try_files nao tem variante de barra final, entao a rota crua 404.
+	# Mesmo padrao de duas regras acima, pelo mesmo motivo (preservar query).
+	@obrigado_slash_query {
+		path /obrigado/
+		expression {query} != ""
+	}
+	redir @obrigado_slash_query /obrigado?{query} 308
+	redir /obrigado/ /obrigado 308
+
+	# /index.html -> / (home com URL unica, evita pageview duplicado no GTM
+	# e conteudo duplicado pro SEO). Mesmo padrao de duas regras acima.
+	@index_html_query {
+		path /index.html
+		expression {query} != ""
+	}
+	redir @index_html_query /?{query} 308
+	redir /index.html / 308
+
 	try_files {path} {path}.html
 	file_server
 }
