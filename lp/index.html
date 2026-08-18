@@ -206,7 +206,7 @@ section{padding:82px 0}
 .person strong{display:block;color:var(--text);font-size:14px}
 
 /* Who */
-.who-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:52px;align-items:center}
+.who-grid{display:grid;grid-template-columns:1fr;max-width:830px;margin:0 auto}
 .photo-placeholder{
   min-height:410px;background:linear-gradient(145deg,#E8EBF2,#D9DEE8);
   border-radius:14px;border:1px dashed #AEB6C5;
@@ -322,14 +322,6 @@ details p{color:var(--muted);padding-top:12px}
 @media(max-width:720px){
   .test-grid.video-grid{grid-template-columns:1fr}
   .video-testimonial video{max-height:none}
-}
-
-
-.who-photo-art{
-  width:min(100%,540px);
-  display:block;
-  margin:0 auto;
-  height:auto;
 }
 
 
@@ -996,10 +988,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="who">
   <div class="container who-grid">
-    <div style="display:flex;align-items:center;justify-content:center">
-      <img src="assets/time-movia.webp" alt="Time Movia" class="who-photo-art" style="width:min(100%,560px);height:auto;display:block">
-    </div>
-
     <div>
       <div class="eyebrow">Quem somos</div>
       <h2>Nascemos no tráfego pago. Criamos a Movia para resolver o que o tráfego, sozinho, não conseguia resolver.</h2>
