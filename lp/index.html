@@ -1,20 +1,47 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- Google Tag Manager -->
+<!-- Depois de charset/viewport: o parser precisa saber a codificacao antes
+     de qualquer script. O <noscript> do GTM continua logo apos o <body>. -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WXFGM7H5');</script>
 <!-- End Google Tag Manager -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Movia | Cada lead, mais à frente.</title>
 <meta name="description" content="CRM automotivo com atendimento pelo WhatsApp, qualificação, follow-up, estoque, agenda e gestão comercial para lojas e revendas de veículos.">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap');
 
+<!-- LP de trafego pago: nao deve ser indexada nem competir com o site
+     institucional pelas mesmas buscas. `follow` mantem os links uteis
+     pro crawler; so a indexacao desta URL fica de fora. -->
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://form.moviaautomacoes.com.br/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Movia">
+<meta property="og:title" content="Movia | Cada lead, mais à frente.">
+<meta property="og:description" content="CRM automotivo com atendimento pelo WhatsApp, qualificação, follow-up, estoque, agenda e gestão comercial para lojas e revendas de veículos.">
+<meta property="og:url" content="https://form.moviaautomacoes.com.br/">
+<meta property="og:image" content="https://moviaautomacoes.com.br/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="605">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Fonte por <link>, nao por @import dentro do <style>: o preload scanner
+     dispara o CSS junto com o HTML em vez de esperar o parse da folha
+     inteira, e o preconnect do gstatic ja abre DNS+TLS antes do woff2. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap">
+
+<style>
 :root{
   --navy900:#001A52;
   --navy800:#002B86;
@@ -931,7 +958,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="test-grid video-grid">
       <article class="video-testimonial">
-        <video controls playsinline preload="metadata">
+        <!-- poster + preload="none": com o frame ja pintado nao ha area preta,
+             e o browser deixa de abrir `Range: bytes=0-` nos dois mp4 no load.
+             Os bytes do video so saem quando o visitante da play. -->
+        <video controls playsinline preload="none"
+               poster="assets/depoimento-cliente-1-poster.webp">
           <source src="assets/depoimento-cliente-1.mp4" type="video/mp4">
           Seu navegador não suporta vídeo HTML5.
         </video>
@@ -942,7 +973,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </article>
 
       <article class="video-testimonial">
-        <video controls playsinline preload="metadata">
+        <video controls playsinline preload="none"
+               poster="assets/depoimento-cliente-2-poster.webp">
           <source src="assets/depoimento-cliente-2.mp4" type="video/mp4">
           Seu navegador não suporta vídeo HTML5.
         </video>

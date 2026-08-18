@@ -1,21 +1,32 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- Google Tag Manager -->
+<!-- Depois de charset/viewport: o parser precisa saber a codificacao antes
+     de qualquer script. O <noscript> do GTM continua logo apos o <body>. -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WXFGM7H5');</script>
 <!-- End Google Tag Manager -->
-<meta charset="utf-8">
-<meta name="robots" content="noindex,nofollow">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Cadastro Concluído | Movia</title>
 <meta name="description" content="Cadastro concluído com sucesso. Em breve nossa equipe entrará em contato.">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+<meta name="robots" content="noindex,nofollow">
+<!-- URL canonica sem .html — o Caddyfile ja faz 308 de /obrigado.html. -->
+<link rel="canonical" href="https://form.moviaautomacoes.com.br/obrigado">
 
+<!-- Mesma troca do index: @import dentro do <style> serializa a descoberta
+     da fonte; <link> + preconnect deixa o preload scanner adiantar. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Inter:wght@400;500;600&display=swap">
+
+<style>
 :root {
   --bg: #000000;
   --white: #FFFFFF;
