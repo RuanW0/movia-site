@@ -107,9 +107,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </h1>
 
       <p>
-        Nos próximos minutos, o nosso time de especialistas entrará em contato com você para entender melhor a operação da sua loja e avaliar como a Movia pode te ajudar a acelerar o atendimento, a qualificação dos leads e o processo comercial. Por enquanto, aguarde nosso contato.
+        Recebemos sua solicitação de demonstração. Nossa equipe entrará em contato pelo WhatsApp ou telefone para conhecer melhor a operação da sua loja e agendar uma apresentação personalizada da Movia.
       </p>
     </div>
   </div>
+<script>
+// >>> meta-lead >>>
+// Dispara o evento padrão `Lead` da Meta exatamente uma vez por cadastro
+// confirmado. A confirmação só é criada pela função sucesso() do form
+// (gravação confirmada na planilha); acesso direto ou refresh do /obrigado
+// não têm confirmação e não disparam nada. O Pixel base é carregado pelo
+// GTM — nada de código base aqui (evita PageView duplicado).
+(function(){
+  var CHAVE = 'movia_lead_confirmado';
+  var PIXEL_ID = '4283843718520684';
+  var bruto;
+  try { bruto = sessionStorage.getItem(CHAVE); } catch(e){ return; }
+  if(!bruto) return;
+  var conf = null;
+  try { conf = JSON.parse(bruto); } catch(e){}
+  if(!conf || !conf.eventId){
+    try { sessionStorage.removeItem(CHAVE); } catch(e){}
+    return;
+  }
+  var tentativas = 0;
+  (function esperaFbq(){
+    if(typeof window.fbq === 'function'){
+      window.fbq('trackSingle', PIXEL_ID, 'Lead',
+        { content_name: 'Solicitação de demonstração Movia' },
+        { eventID: conf.eventId });
+      // Remoção só DEPOIS do comando enviado ao fbq — refresh não re-dispara.
+      try { sessionStorage.removeItem(CHAVE); } catch(e){}
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'meta_lead_disparado', event_id: conf.eventId });
+      return;
+    }
+    tentativas++;
+    // Espera controlada: 100ms x 50 = 5s no máximo; sem loop infinito. Se o
+    // fbq nunca chegar (ad blocker), a confirmação fica — nunca é descartada
+    // sem o Lead ter sido enviado.
+    if(tentativas < 50) setTimeout(esperaFbq, 100);
+  })();
+})();
+// <<< meta-lead <<<
+</script>
 </body>
 </html>

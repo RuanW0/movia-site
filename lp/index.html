@@ -891,7 +891,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
 
-          <button class="btn" type="submit">Receber mais informações</button>
+          <button class="btn" type="submit">Solicitar uma demonstração</button>
           <div id="formMsg" class="form-msg" role="status" hidden></div>
 </form>
       </div>
@@ -1060,7 +1060,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="eyebrow" style="color:rgba(255,255,255,.82)">Receba uma operação comercial organizada</div>
       <h2>A Movia estrutura o atendimento e a gestão comercial da sua loja com base na sua necessidade.</h2>
       <p>A loja para de depender de WhatsApp solto, planilha e memória. O processo fica visível, o lead continua andando e o vendedor recebe informação para agir.</p>
-      <a href="#formulario" class="btn">Quero mais informações</a>
+      <a href="#formulario" class="btn">Solicitar uma demonstração</a>
     </div>
   </div>
 </section>
@@ -1237,6 +1237,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return (d.length === 10 || d.length === 11) && d.charAt(0) !== '0';
   }
 
+  // Um event_id por tentativa real de cadastro; os retries do mesmo envio
+  // reutilizam o mesmo id (deduplicação do Lead na Meta via eventID).
+  function novoEventId(){
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+      var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+
+  // UTMs/fbclid da URL de entrada. Vão como campos extras do payload — o
+  // doPost v3 ignora campos desconhecidos sem quebrar; colunas separadas na
+  // planilha dependem de ajuste futuro no Apps Script. `pagina` segue levando
+  // a URL completa com query string.
+  var UTM_CHAVES = ['utm_source','utm_medium','utm_campaign','utm_campaign_id','utm_adset','utm_content','utm_ad_id','fbclid'];
+
   // tipo: true = erro, 'info' = aviso neutro, false/omitido = sucesso
   function mostrar(texto, tipo){
     msg.textContent = texto;
@@ -1284,6 +1300,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var data = {};
     new FormData(form).forEach(function(v, k){ data[k] = String(v).trim(); });
     data.pagina = location.href;
+    var params = new URLSearchParams(location.search);
+    UTM_CHAVES.forEach(function(k){
+      var v = params.get(k);
+      if(v) data[k] = v;
+    });
+    var eventId = novoEventId();
+    data.event_id = eventId;
 
     btn.disabled = true;
     btn.innerHTML = '<span class="spin" aria-hidden="true"></span>Enviando...';
@@ -1303,6 +1326,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     function sucesso(){
+      // Confirmação que autoriza o /obrigado a disparar o Lead da Meta
+      // exatamente uma vez. Criada SÓ aqui: gravação confirmada (`ok`, ou
+      // `duplicate` pós-retry quando a 1a tentativa gravou e a resposta se
+      // perdeu). Acesso direto/refresh do /obrigado não têm confirmação.
+      try {
+        sessionStorage.setItem('movia_lead_confirmado',
+          JSON.stringify({ eventId: eventId, timestamp: Date.now() }));
+      } catch(e){}
       // Conversão só com gravação confirmada — métrica limpa no GTM.
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
