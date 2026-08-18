@@ -1,31 +1,81 @@
 /**
- * Planilha de Leads Movia — versão completa (v3)
+ * Planilha de Leads Movia — versão completa (v4)
  * ------------------------------------------------
  * COMO USAR:
  * 1. Planilha -> Extensões -> Apps Script
  * 2. Apagar TODO o código e colar este arquivo inteiro.
  * 3. Salvar (Cmd+S).
- * 4. ⚠️ REIMPLANTAR (obrigatório sempre que o código muda):
+ * 4. ⚠️ Propriedade obrigatória (uma vez, ANTES de reimplantar):
+ *    Configurações do projeto -> Propriedades do script -> Adicionar
+ *    Propriedade: LEAD_TOKEN   Valor: o mesmo FORM_TOKEN de lp/index.html
+ *    Sem essa propriedade o webhook recusa TODOS os envios (ver
+ *    tokenValido_ abaixo — falha fechada, de propósito).
+ * 5. ⚠️ REIMPLANTAR (obrigatório sempre que o código muda):
  *    Implantar -> Gerenciar implantações -> ✏️ editar -> Versão: "Nova versão"
  *    -> Implantar. A URL /exec continua a mesma; sem esse passo o webhook
  *    continua rodando a versão antiga.
- * 5. No menu suspenso de funções, escolher "configurarPlanilha" e Executar
+ * 6. No menu suspenso de funções, escolher "configurarPlanilha" e Executar
  *    (só na primeira vez; é seguro rodar de novo, não apaga leads).
  *
  * v3: valida o payload, normaliza telefone/email e bloqueia duplicata
  * (mesmo telefone OU email nos últimos 30 dias). Responde JSON:
  * {"status":"ok"} | {"status":"duplicate"} | {"status":"invalid"}
+ * v4: token compartilhado + honeypot. Mesmos três status — o cliente não
+ * ganhou branch nova.
  */
 
 // ===== 1. WEBHOOK (recebe os leads da landing) =====
 var DEDUP_JANELA_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
 
+// Campo isca do formulario. Fica escondido no HTML; humano nao ve, nao tabula
+// ate ele e leitor de tela ignora. Bot que preenche tudo que tem name cai.
+var HONEYPOT_CAMPO = 'website';
+
+// O token NAO e autenticacao. Ele viaja no HTML publico da landing, entao
+// qualquer um que abrir o fonte le o valor. O que ele corta e o custo baixo:
+// bot generico que faz POST no /exec sem ler a pagina, e script kiddie que
+// copia a URL do devtools sem copiar o payload. Atacante determinado passa —
+// pra barrar de verdade seria preciso servidor proprio assinando a requisicao,
+// que e outro projeto. Vale pelo que custa: uma linha no cliente, uma
+// propriedade no Apps Script.
+//
+// Falha fechada: sem a propriedade LEAD_TOKEN configurada nada e gravado.
+// Um controle de seguranca que se desliga sozinho quando alguem esquece de
+// configurar nao e controle nenhum — e essa falha aparece no primeiro teste
+// de envio (o form mostra "confira os campos"), enquanto falha aberta ficaria
+// invisivel pra sempre.
+function tokenValido_(recebido) {
+  var esperado = PropertiesService.getScriptProperties().getProperty('LEAD_TOKEN');
+  if (!esperado) return false;
+  return String(recebido == null ? '' : recebido) === esperado;
+}
+
+// Honeypot preenchido = bot. Qualquer conteudo nao vazio conta.
+function honeypotPreenchido_(d) {
+  return corta_(d[HONEYPOT_CAMPO], 200).trim().length > 0;
+}
+
+// SEM rate limit por janela, de proposito. O objeto `e` do doPost nao traz IP
+// nem nada que identifique o cliente, entao a unica chave possivel com
+// CacheService/PropertiesService e global (o script inteiro). Um teto global
+// vira arma do atacante: ele estoura a cota de proposito e os leads reais
+// passam a ser recusados junto — troca uma planilha poluida por um formulario
+// morto, que e pior. O que ja limita repeticao aqui e o dedup por
+// telefone/email em 30 dias (duplicado_). Rate limit de verdade so com
+// servidor proprio na frente, que e outro projeto.
 function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
     var d;
     try { d = JSON.parse(e.postData.contents); } catch (err) { return resposta_('invalid'); }
+
+    // Token antes de qualquer leitura ou escrita na planilha.
+    if (!tokenValido_(d.token)) return resposta_('invalid');
+
+    // Honeypot: responde 'ok' e nao grava. O bot precisa acreditar que
+    // funcionou; devolver erro so ensinaria ele a achar o campo isca.
+    if (honeypotPreenchido_(d)) return resposta_('ok');
 
     var nome = corta_(d.nome, 80).trim();
     var empresa = corta_(d.empresa, 80).trim();

@@ -866,6 +866,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="form-card" id="formulario">
 <form id="leadForm" method="post">
+          <!-- Honeypot: isca pra bot. Humano nao ve (fora da tela), nao chega
+               nele no tab (tabindex="-1") e leitor de tela ignora
+               (aria-hidden). Se vier preenchido o Apps Script responde "ok" e
+               nao grava. Estilo inline de proposito: o CSS da pagina nao e
+               escopo deste form, e um seletor no <style> seria pista pro bot. -->
+          <input type="text" name="website" id="leadWebsite" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none">
           <div class="form-grid">
             <div class="field">
               <label for="leadNome">Seu nome</label>
@@ -1236,6 +1243,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function(){
   // Destino do lead. Trocar por CRM depois = trocar esta linha.
   var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbx2uq3nuJiykko7MqedwU82LeZAHYMZTXAcu3Q-z8XRV9qkVYn153tt6LoGhRNzUoa4Ow/exec';
+
+  // Token compartilhado com o Apps Script (propriedade LEAD_TOKEN).
+  // NAO e segredo: esta pagina e publica, entao quem abrir o fonte le o valor.
+  // Serve pra cortar bot generico e script kiddie que POSTam direto no /exec
+  // sem ler a pagina; atacante determinado passa. Trocar aqui exige trocar a
+  // propriedade no Apps Script no mesmo minuto — ver lp/planilha-setup.md.
+  var FORM_TOKEN = 'mv_4a44f20e6050b4e500f8b748';
   var form = document.getElementById('leadForm');
   if(!form) return;
   var tel = document.getElementById('leadTelefone');
@@ -1333,7 +1347,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return;
     }
     var data = {};
+    // O FormData ja leva o honeypot (name="website"); vazio no envio humano.
     new FormData(form).forEach(function(v, k){ data[k] = String(v).trim(); });
+    data.token = FORM_TOKEN;
     data.pagina = location.href;
     var params = new URLSearchParams(location.search);
     UTM_CHAVES.forEach(function(k){
