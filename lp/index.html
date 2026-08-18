@@ -109,7 +109,7 @@ a{text-decoration:none}
   background:#fff;color:var(--text);border-radius:18px;padding:22px;
   box-shadow:0 24px 70px rgba(0,0,0,.22)
 }
-.form-card h3,.form-card .form-intro,.privacy,.qualifier{display:none}
+.form-card h3,.form-card .form-intro,.qualifier{display:none}
 .form-grid{display:grid;grid-template-columns:1fr;gap:14px}
 .field{display:flex;flex-direction:column;gap:8px}
 .field.full{grid-column:auto}
@@ -131,6 +131,8 @@ input:focus,select:focus{outline:2px solid rgba(231,97,20,.14);border-color:#E76
 .btn .spin{width:18px;height:18px;border:3px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;display:inline-block;margin-right:10px;animation:spin .8s linear infinite;vertical-align:-3px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .privacy{font-size:11px;color:#858C9B;text-align:center;margin-top:10px}
+.privacy a{color:#6E7686;text-decoration:underline}
+.footer-copy a{color:inherit;text-decoration:underline}
 .qualifier{
   margin-top:14px;background:#FFF4EC;border:1px solid #FFD7C0;border-radius:10px;
   padding:12px 14px;font-size:12px;color:#7A3A18
@@ -893,6 +895,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <button class="btn" type="submit">Solicitar uma demonstração</button>
           <div id="formMsg" class="form-msg" role="status" hidden></div>
+          <p class="privacy">Ao enviar, você autoriza o uso dos seus dados para a Movia entrar em contato sobre a demonstração, conforme a <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
 </form>
       </div>
     </div>
@@ -1119,7 +1122,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <div class="footer-copy">2026 © Movia. Todos os direitos reservados.</div>
+    <div class="footer-copy"><a href="/privacidade">Política de Privacidade</a> · 2026 © Movia. Todos os direitos reservados.</div>
   </div>
 </footer>
 
