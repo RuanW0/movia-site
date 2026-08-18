@@ -2,6 +2,42 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<!-- Consent Mode v2 (LGPD) — precisa rodar ANTES do gtm.js, senao as tags
+     de marketing carregam sem restricao. A ordem charset -> GTM -> viewport
+     foi medida na issue #5 e nao deve ser alterada. -->
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments)}
+(function(){
+  var KEY='movia_consent_v1',saved=null;
+  try{saved=window.localStorage.getItem(KEY)}catch(e){}
+  if(saved!=='granted'&&saved!=='denied')saved=null;
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    personalization_storage:'denied',
+    functionality_storage:'granted',
+    security_storage:'granted',
+    wait_for_update:500
+  });
+  gtag('set','ads_data_redaction',true);
+  gtag('set','url_passthrough',true);
+  if(saved){
+    /* redaction antes do update: o update ja dispara as tags e elas leem
+       ads_data_redaction no mesmo tick. */
+    if(saved==='granted')gtag('set','ads_data_redaction',false);
+    gtag('consent','update',{
+      ad_storage:saved,ad_user_data:saved,ad_personalization:saved,
+      analytics_storage:saved,personalization_storage:saved
+    });
+    dataLayer.push({event:'movia_consent',consent_state:saved,consent_source:'restaurado'});
+  }
+  window.__moviaConsent={key:KEY,state:saved};
+  document.documentElement.setAttribute('data-consent',saved?'definido':'pendente');
+})();
+</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -16,7 +52,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=5">
 <link rel="icon" href="assets/favicon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Qual é o melhor CRM para loja de veículos? Guia 2026">
@@ -52,6 +88,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXFGM7H5"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+<!-- Banner de consentimento (LGPD). Primeiro no DOM para chegar no teclado
+     e no leitor de tela antes do resto; fixado no rodape via CSS, fora do
+     fluxo, entao nao gera layout shift. Aceitar e recusar usam a mesma
+     classe: mesmo tamanho, mesmo peso, um clique cada. -->
+<section class="consent" id="consent" role="region" aria-label="Aviso de privacidade e cookies">
+  <div class="consent-inner">
+    <div class="consent-text">
+      <p class="consent-eyebrow">Privacidade</p>
+      <p>Usamos cookies para medir a navegação e personalizar anúncios. Nada de medição ou marketing é ativado antes da sua escolha. Veja a <a class="consent-link" href="https://form.moviaautomacoes.com.br/privacidade" target="_blank" rel="noopener">política de privacidade</a>.</p>
+    </div>
+    <div class="consent-actions">
+      <button type="button" class="consent-btn" data-consent-acao="denied">Recusar</button>
+      <button type="button" class="consent-btn" data-consent-acao="granted">Aceitar</button>
+    </div>
+  </div>
+</section>
 
 <header class="nav"><div class="container">
   <a href="index.html" aria-label="Movia, início"><img src="assets/movia-full-white.webp" alt="Movia" class="brand-logo" width="79" height="40"></a>
@@ -110,6 +163,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="footer-social" style="margin-top:14px"><a href="https://www.instagram.com/moviacrm/" target="_blank" rel="noopener">@moviacrm</a></p>
   <p class="tech" style="margin-top:14px">Cada lead, mais à frente.</p>
   <p style="margin-top:14px">© <span id="yr">2026</span> Movia. Todos os direitos reservados.</p>
+  <p class="footer-legal" style="margin-top:14px"><a href="https://form.moviaautomacoes.com.br/privacidade" target="_blank" rel="noopener">Política de privacidade</a> · <button type="button" class="linklike" id="consent-reabrir">Preferências de cookies</button></p>
 </div></footer>
 
 
@@ -136,6 +190,57 @@ document.getElementById('yr').textContent=new Date().getFullYear();
     t.setAttribute('aria-expanded',open?'true':'false');
     t.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
   });
+})();
+
+/* Consentimento (LGPD) — grava a escolha e atualiza o Consent Mode v2.
+   Sem a configuracao correspondente dentro do GTM (consent checks nas tags
+   de marketing) o update aqui nao bloqueia nada: ver runbook no PR. */
+(function(){
+  var cfg=window.__moviaConsent||{key:'movia_consent_v1',state:null};
+  var box=document.getElementById('consent');
+  var reabrir=document.getElementById('consent-reabrir');
+  if(!box) return;
+  var voltarFoco=null;
+
+  function abrir(origem){
+    voltarFoco=origem||null;
+    document.documentElement.setAttribute('data-consent','pendente');
+    var b=box.querySelector('.consent-btn');
+    if(b&&origem) b.focus();
+  }
+
+  function escolher(v){
+    if(v!=='granted'&&v!=='denied') return;
+    try{window.localStorage.setItem(cfg.key,v)}catch(e){}
+    cfg.state=v;
+    if(typeof gtag==='function'){
+      /* redaction antes do update: o update ja dispara as tags e elas leem
+         ads_data_redaction no mesmo tick. */
+      gtag('set','ads_data_redaction',v!=='granted');
+      gtag('consent','update',{
+        ad_storage:v,ad_user_data:v,ad_personalization:v,
+        analytics_storage:v,personalization_storage:v
+      });
+    }
+    (window.dataLayer=window.dataLayer||[]).push({event:'movia_consent',consent_state:v,consent_source:'banner'});
+    document.documentElement.setAttribute('data-consent','definido');
+    if(voltarFoco){voltarFoco.focus();voltarFoco=null;}
+  }
+
+  box.addEventListener('click',function(e){
+    var alvo=e.target&&e.target.closest?e.target.closest('[data-consent-acao]'):null;
+    if(alvo) escolher(alvo.getAttribute('data-consent-acao'));
+  });
+
+  /* Escape so fecha se ja existe escolha gravada — sem escolha, nao ha como
+     dispensar o aviso, e dispensar nunca vale como aceite. */
+  box.addEventListener('keydown',function(e){
+    if(e.key!=='Escape'||!cfg.state) return;
+    document.documentElement.setAttribute('data-consent','definido');
+    if(voltarFoco){voltarFoco.focus();voltarFoco=null;}
+  });
+
+  if(reabrir) reabrir.addEventListener('click',function(){abrir(reabrir);});
 })();
 </script>
 </body>

@@ -183,6 +183,50 @@ img{max-width:100%;display:block}
 .footer-social a{color:var(--orange-400)}
 .footer-social a:hover{color:var(--orange-500)}
 
+/* Banner de consentimento (LGPD)
+   position:fixed -> fora do fluxo, nao empurra nada, CLS zero.
+   A visibilidade vem do atributo data-consent que o script do <head> grava
+   antes do primeiro paint, entao nao ha piscada nem aparicao tardia. */
+.consent{position:fixed;left:0;right:0;bottom:0;z-index:120;display:none;
+  background:rgba(17,24,47,.97);backdrop-filter:blur(10px);
+  border-top:1px solid var(--border);box-shadow:0 -18px 44px -30px rgba(0,0,0,.95)}
+html[data-consent="pendente"] .consent{display:block}
+.consent::before{content:"";display:block;height:2px;background:var(--gradient)}
+.consent-inner{max-width:var(--maxw);margin:0 auto;padding:18px 20px;
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.consent-text{flex:1 1 340px;min-width:0}
+.consent-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--orange-400);font-weight:500;margin-bottom:7px}
+.consent-text p{font-size:14px;color:var(--text-2);line-height:1.55;max-width:70ch}
+.consent-link{color:var(--orange-400);text-decoration:underline;text-underline-offset:3px}
+.consent-link:hover{color:var(--orange-300)}
+.consent-actions{display:flex;gap:10px;flex:0 0 auto}
+/* Aceitar e recusar compartilham a mesma classe de proposito: mesmo tamanho,
+   mesma cor, mesmo peso, um clique cada. Exigencia da LGPD/ANPD — recusar
+   nao pode custar mais que aceitar. */
+.consent-btn{font-family:var(--font-body);font-weight:600;font-size:14.5px;line-height:1;
+  padding:14px 26px;min-width:136px;border-radius:10px;cursor:pointer;
+  background:var(--surface);color:var(--text);border:1px solid var(--fog);transition:.18s}
+.consent-btn:hover{background:var(--card);border-color:var(--orange-400);color:var(--orange-300)}
+.consent-btn:focus-visible,.consent-link:focus-visible,.linklike:focus-visible{
+  outline:2px solid var(--orange-400);outline-offset:3px}
+
+/* Botao com aparencia de link (reabrir preferencias no rodape) */
+.linklike{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px}
+.linklike:hover{color:var(--text)}
+.footer-legal a{text-decoration:underline;text-underline-offset:3px}
+
+@media(max-width:640px){
+  .consent-inner{padding:16px;gap:14px}
+  .consent-text p{font-size:13.5px}
+  .consent-actions{width:100%}
+  .consent-btn{flex:1 1 0;min-width:0;padding:14px 12px}
+}
+@media (prefers-reduced-motion:reduce){
+  .consent-btn{transition:none}
+}
+
 /* Article (authority page) */
 .article{max-width:760px;margin:0 auto}
 .article h1{font-size:clamp(30px,4.4vw,46px);margin-bottom:18px;letter-spacing:-0.035em}
