@@ -1274,8 +1274,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return (d.length === 10 || d.length === 11) && d.charAt(0) !== '0';
   }
 
-  // Um event_id por tentativa real de cadastro; os retries do mesmo envio
-  // reutilizam o mesmo id (deduplicação do Lead na Meta via eventID).
+  // Um event_id novo por clique de envio (deduplicação do Lead na Meta via
+  // eventID; só um Lead dispara por cadastro, então ids distintos são ok).
   function novoEventId(){
     try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
@@ -1297,33 +1297,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     msg.hidden = false;
   }
 
-  // Ligado quando algum envio foi reenviado — muda a leitura de "duplicate"
-  // (ver o tratamento da resposta no submit).
-  var houveRetry = false;
+  // Regra de UX: clicou -> UMA tentativa, com limite de 15s -> nao foi?
+  // PARA. Mostra o erro e devolve o botao. Nada continua tentando em
+  // background: o AbortController mata a requisicao pendurada, e o contador
+  // `envioAtivo` descarta resposta atrasada de um clique anterior — resposta
+  // velha NUNCA redireciona nem mexe na tela depois que o visitante voltou a
+  // editar. (O retry automatico antigo deixava a cadeia viva por minutos e a
+  // pagina "enviava sozinha" no meio da digitacao.)
+  var envioAtivo = 0;
+  var abortAtual = null;
 
-  // Envia com retry: erro de rede/HTTP tenta de novo (2x, ~1.5s de espera).
-  // Resposta 200 nunca é re-enviada (evita linha duplicada na planilha).
-  function enviar(corpo, tentativa){
+  // Ligado quando o ultimo clique terminou em erro de rede/timeout — nesse
+  // caso a gravacao pode ter acontecido sem a resposta chegar, e o proximo
+  // clique que receber "duplicate" e o eco do proprio lead (vai pro /obrigado).
+  var ultimoEnvioFalhou = false;
+
+  function enviar(corpo){
+    if(abortAtual) abortAtual.abort();
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    abortAtual = ctrl;
+    var timer = ctrl && setTimeout(function(){ ctrl.abort(); }, 15000);
     return fetch(WEBHOOK_URL, {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: corpo,
-      keepalive: true
+      keepalive: true,
+      signal: ctrl ? ctrl.signal : undefined
     }).then(function(r){
       if(!r.ok) throw new Error('http ' + r.status);
       return r.text().then(function(t){
         try { return JSON.parse(t); }
         catch(e){ return t.trim() === 'ok' ? { status: 'ok' } : { status: 'erro-resposta' }; }
       });
-    }).catch(function(err){
-      if(tentativa < 3){
-        houveRetry = true;
-        return new Promise(function(res){ setTimeout(res, 1500); })
-          .then(function(){ return enviar(corpo, tentativa + 1); });
-      }
-      throw err;
-    });
+    }).finally(function(){ if(timer) clearTimeout(timer); });
   }
 
   form.addEventListener('submit', function(e){
@@ -1350,10 +1357,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     btn.disabled = true;
     btn.innerHTML = '<span class="spin" aria-hidden="true"></span>Enviando...';
     msg.hidden = true;
-    houveRetry = false;
+    envioAtivo++;
+    var meuEnvio = envioAtivo;
+
+    // So a resposta do clique MAIS RECENTE pode mexer na tela.
+    function aindaValho(){ return meuEnvio === envioAtivo; }
 
     function falha(){
-      mostrar('Não conseguimos enviar agora. Tente novamente em instantes.', true);
+      if(!aindaValho()) return;
+      ultimoEnvioFalhou = true;
+      mostrar('Não conseguimos enviar agora. Verifique sua conexão e clique de novo.', true);
       btn.disabled = false; btn.textContent = BTN_TEXTO;
     }
 
@@ -1377,12 +1390,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       window.location.href = '/obrigado';
     }
 
-    enviar(JSON.stringify(data), 1).then(function(resp){
+    enviar(JSON.stringify(data)).then(function(resp){
+      if(!aindaValho()) return;
       if(resp.status === 'ok'){
         sucesso();
-      } else if(resp.status === 'duplicate' && houveRetry){
-        // A 1a tentativa gravou e só a resposta se perdeu: o "duplicate" é o
-        // eco do próprio lead. Tratar como duplicata deixaria o visitante
+      } else if(resp.status === 'duplicate' && ultimoEnvioFalhou){
+        // O clique anterior deu erro de rede DEPOIS de gravar: o "duplicate"
+        // é o eco do próprio lead. Tratar como duplicata deixaria o visitante
         // fora do /obrigado e a conversão sem registro, com a linha na
         // planilha. A planilha continua protegida — nunca há 2a linha.
         sucesso();
@@ -1391,12 +1405,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         btn.textContent = 'Cadastro já recebido';
         mostrar('Já recebemos seus dados — nossa equipe vai te chamar 👍', false);
       } else if(resp.status === 'invalid'){
+        ultimoEnvioFalhou = false;
         mostrar('Confira os campos preenchidos e tente de novo.', true);
         btn.disabled = false; btn.textContent = BTN_TEXTO;
       } else {
         falha();
       }
-    }).catch(falha);
+    }).catch(function(err){
+      // Abort do proprio clique seguinte nao e falha deste — a tela ja e dele.
+      if(!aindaValho()) return;
+      falha();
+    });
   });
 })();
 // <<< lead-form <<<
