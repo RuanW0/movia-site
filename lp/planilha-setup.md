@@ -102,7 +102,7 @@ docker run --rm -p 8080:8080 lp-preview
 
 O `lp/index.html` redireciona com `window.location.href = '/obrigado'` — caminho
 root-absoluto, correto em produção, onde a LP fica na raiz do domínio
-(`form.moviaautomacoes.com.br`).
+(`form.carioon.com.br`).
 
 Duas armadilhas com `python3 -m http.server`, ambas verificadas:
 
@@ -125,5 +125,5 @@ redirect por caminho relativo quebraria produção pra consertar só o preview.
   → Nova versão**. A URL continua a mesma.
 - Mudou só uma **propriedade do script** (`LEAD_TOKEN`)? → vale na hora, sem
   republicar.
-- Migrar pro CRM da Movia depois = trocar `WEBHOOK_URL` na página (e levar
+- Migrar pro CRM da Carioon depois = trocar `WEBHOOK_URL` na página (e levar
   token + honeypot pro endpoint novo).

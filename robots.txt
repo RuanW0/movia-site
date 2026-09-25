@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://moviaautomacoes.com.br/sitemap.xml
+Sitemap: https://carioon.com.br/sitemap.xml
