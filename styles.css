@@ -741,3 +741,18 @@ img{max-width:100%;display:block}
 /* v8 — foto real do veículo de exemplo na aba Anunciamos */
 .op-veh-ph{height:auto;background:var(--surface)}
 .op-veh-ph img{width:100%;height:auto;display:block}
+
+/* v10 — faixa final fundida com o card da operação (#operacao) */
+.band .svc-list{list-style:none;margin:6px auto 0;display:grid;gap:12px;max-width:640px;text-align:left}
+.band .svc-list li{position:relative;padding-left:30px;color:rgba(255,255,255,.88);font-size:14.5px;line-height:1.55}
+.band .svc-list li::before{content:"";position:absolute;left:0;top:6px;width:16px;height:16px;border-radius:50%;
+  background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.75)}
+.band .svc-list li::after{content:"";position:absolute;left:4.5px;top:10.5px;width:7px;height:4px;
+  border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg)}
+.band .svc-list li strong{color:#fff}
+.band .svc-note{margin:20px 0 24px;font-size:14px;color:rgba(255,255,255,.92)}
+.band .svc-note::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-right:9px;vertical-align:middle}
+/* chegada via âncora: realce breve pra mostrar onde o clique levou */
+#operacao:target .band{animation:svcArrive 1.6s ease}
+@keyframes svcArrive{0%{box-shadow:0 0 0 0 rgba(238,124,58,.5)}35%{box-shadow:0 0 0 12px rgba(238,124,58,.22)}100%{box-shadow:none}}
+@media (prefers-reduced-motion: reduce){#operacao:target .band{animation:none}}
