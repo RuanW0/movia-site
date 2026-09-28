@@ -737,3 +737,7 @@ img{max-width:100%;display:block}
   .op-panel.active{animation:none}
   .op-tabs button,.op-tabs button:hover{transform:none;transition:none}
 }
+
+/* v8 — foto real do veículo de exemplo na aba Anunciamos */
+.op-veh-ph{height:auto;background:var(--surface)}
+.op-veh-ph img{width:100%;height:auto;display:block}
